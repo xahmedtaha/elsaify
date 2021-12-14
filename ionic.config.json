@@ -1,0 +1,7 @@
+{
+  "name": "Elsaify",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
