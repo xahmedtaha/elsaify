@@ -20,7 +20,7 @@
         frameborder="0"
       ></iframe>
     </div>
-    <ion-button class="ion-margin-top" :href="'https://youtu.be/' + videoID" target="_system" color="danger" size="large">
+    <ion-button expand="block" class="ion-margin-top" :href="'https://youtu.be/' + videoID" target="_system" color="danger">
       <ion-icon slot="start" :icon="logoYoutube" />
       اتفرج على اليوتيوب
     </ion-button>

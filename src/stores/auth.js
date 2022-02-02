@@ -15,30 +15,6 @@ export const useAuth = defineStore("auth", {
 
   actions: {
     async init() {
-      axios.interceptors.response.use(
-        (response) => {
-          if ((response.data.code == 401 || response.data.code == 403) && !!this.token) {
-            this.login().then(() => {
-
-            }).catch(() => {
-              this.logout();
-              this.router.push("/login");
-              return Promise.reject(response);
-            });
-          }
-          return response;
-        },
-        (error) => {
-          console.log(error.response.status)
-          if ((error.response.status == 401 || error.response.status == 403) && !!this.token) {
-            this.logout();
-            this.router.push("/login");
-            return Promise.reject(error);
-          }
-          return Promise.reject(error);
-        }
-      );
-      // axios.defaults.headers.common["Allow-Control-Allow-Origin"] = '*';
       return new Promise((resolve, reject) => {
         if (localStorage.getItem("phone")) {
           const phone = localStorage.getItem("phone");
@@ -79,6 +55,53 @@ export const useAuth = defineStore("auth", {
               reject();
             });
         } else reject();
+
+        axios.interceptors.response.use(
+          (response) => {
+            if ((response.data.code == 401 || response.data.code == 403) && !!this.token) {
+              delete axios.defaults.headers.common[
+                "Authorization"
+              ];
+              this.login({
+                phone: this.user.phone,
+                password: localStorage.getItem("password"),
+              }).then(() => {
+                this.router.push("/");
+                return Promise.reject(response);
+              }).catch((err) => {
+                console.error(err)
+                this.logout();
+                this.router.push("/login");
+                return Promise.reject(response);
+              });
+            } else {
+              return response;
+            }
+          },
+          (error) => {
+            console.log(error.response.status)
+            if ((error.response.status == 401 || error.response.status == 403) && !!this.token) {
+              delete axios.defaults.headers.common[
+                "Authorization"
+              ];
+              this.login({
+                phone: this.user.phone,
+                password: localStorage.getItem("password"),
+              }).then(() => {
+                this.router.push("/");
+                return Promise.reject(error);
+              }).catch(() => {
+                console.error("Re-Login Error")
+                this.logout();
+                this.router.push("/login");
+                return Promise.reject(error);
+              });
+            } else {
+              return Promise.reject(error);
+            }
+          }
+        );
+
       });
     },
     async login({
