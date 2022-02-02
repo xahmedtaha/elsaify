@@ -136,7 +136,7 @@ import {
   IonSpinner,
   //   IonIcon,
 } from "@ionic/vue";
-import { playCircle, arrowForward } from "ionicons/icons";
+import { playCircle, arrowForward, chevronForward } from "ionicons/icons";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import VideoModal from "../components/VideoModal.vue";
@@ -148,6 +148,7 @@ export default {
     playCircle,
     arrowForward,
     segment: "lessons",
+    chevronForward
   }),
   components: {
     IonPage,

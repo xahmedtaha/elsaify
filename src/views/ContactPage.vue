@@ -18,7 +18,8 @@
           </div>
           <ion-card>
             <ion-item
-              detail :detail-icon="chevronBack"
+              detail
+              :detail-icon="chevronBack"
               button
               href="https://www.facebook.com/ElSaify4Chemistry"
               target="_system"
@@ -37,7 +38,8 @@
               </ion-label>
             </ion-item>
             <ion-item
-              detail :detail-icon="chevronBack"
+              detail
+              :detail-icon="chevronBack"
               button
               href="https://www.facebook.com/groups/1424297907945485"
               target="_system"
@@ -56,7 +58,8 @@
               </ion-label>
             </ion-item>
             <ion-item
-              detail :detail-icon="chevronBack"
+              detail
+              :detail-icon="chevronBack"
               button
               href="https://www.youtube.com/channel/UCYefsYxZqaiQMFpw1PCvVVQ"
               target="_system"
@@ -75,9 +78,10 @@
               </ion-label>
             </ion-item>
             <ion-item
-              detail :detail-icon="chevronBack"
+              detail
+              :detail-icon="chevronBack"
               button
-              href="https://www.youtube.com/channel/UCYefsYxZqaiQMFpw1PCvVVQ"
+              href="https://wa.link/2d3vpd"
               target="_system"
               lines="full"
             >
@@ -93,7 +97,13 @@
                 <p>استفسارات عن أي حاجه غير المادة العلمية</p>
               </ion-label>
             </ion-item>
-            <ion-item detail :detail-icon="chevronBack" lines="none">
+            <ion-item
+              detail
+              :detail-icon="chevronBack"
+              lines="none"
+              href="https://wa.link/wyim4d"
+              target="_system"
+            >
               <ion-icon
                 slot="start"
                 :icon="logoWhatsapp"
@@ -128,7 +138,12 @@ import {
   IonIcon,
   IonCard,
 } from "@ionic/vue";
-import { logoFacebook, logoYoutube, logoWhatsapp, chevronBack } from "ionicons/icons";
+import {
+  logoFacebook,
+  logoYoutube,
+  logoWhatsapp,
+  chevronBack,
+} from "ionicons/icons";
 
 export default {
   data: () => ({
