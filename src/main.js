@@ -27,10 +27,15 @@ import './theme/variables.css';
 // Global Store
 import { createPinia } from 'pinia';
 
+const pinia = createPinia();
+pinia.use(({ store }) => {
+  store.router = router
+});
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(createPinia());
+  .use(pinia);
   
 router.isReady().then(() => {
   app.mount('#app');
