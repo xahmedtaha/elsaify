@@ -60,10 +60,8 @@ export default defineComponent({
 </script>
 
 <style>
-@media (prefers-color-scheme: light) {
-  ion-content {
-    --background: var(--ion-color-light);
-  }
+body:not(.dark) ion-content {
+  --background: var(--ion-color-light);
 }
 
 .fade-enter-active,
