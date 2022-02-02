@@ -1,11 +1,6 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { useAuth } from "../stores/auth";
 import TabsPage from "../views/TabsPage.vue";
-import CoursePage from "../views/CoursePage.vue";
-import HomePage from "../views/HomePage.vue";
-import AboutPage from "../views/AboutPage.vue";
-import ContactPage from "../views/ContactPage.vue";
-import LoginPage from "../views/Auth/LoginPage.vue";
 
 
 const routes = [
@@ -15,8 +10,7 @@ const routes = [
       requiresGuest: true,
     },
     path: "/login",
-    // component: () => import("../views/Auth/LoginPage.vue"),
-    component: LoginPage,
+    component: () => import("../views/Auth/LoginPage.vue"),
   },
   {
     meta: {
@@ -24,8 +18,7 @@ const routes = [
     },
     path: "/course",
     props: true,
-    // component: () => import("../views/CoursePage.vue"),
-    component: CoursePage,
+    component: () => import("../views/CoursePage.vue"),
   },
   {
     path: "/",
@@ -44,18 +37,15 @@ const routes = [
       },
       {
         path: "home",
-        // component: () => import("@/views/HomePage.vue"),
-        component: HomePage,
+        component: () => import("@/views/HomePage.vue"),
       },
       {
         path: "contact",
-        // component: () => import("@/views/ContactPage.vue"),
-        component: ContactPage,
+        component: () => import("@/views/ContactPage.vue"),
       },
       {
         path: "about",
-        // component: () => import("@/views/AboutPage.vue"),
-        component: AboutPage,
+        component: () => import("@/views/AboutPage.vue"),
       },
     ],
   },
