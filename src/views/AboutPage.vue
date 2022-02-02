@@ -93,7 +93,7 @@ import {
   IonLabel,
   IonItem,
 } from "@ionic/vue";
-import lottie from "vue-lottie";
+import lottie from "../components/Lottie.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
 import { person } from "ionicons/icons";
 import { useAuth } from "../stores/auth";
