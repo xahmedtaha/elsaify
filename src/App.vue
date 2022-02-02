@@ -8,41 +8,54 @@
 </template>
 
 <script>
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuth } from './stores/auth';
-import LoadingPage from './views/LoadingPage.vue';
+import { IonApp, IonRouterOutlet } from "@ionic/vue";
+import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
+import { useAuth } from "./stores/auth";
+import LoadingPage from "./views/LoadingPage.vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   data: () => ({
     loading: true,
   }),
-  async mounted () {
+  async mounted() {
+    // Use matchMedia to check the user preference
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+    document.body.classList.toggle("dark", prefersDark.matches);
+
+    // Listen for changes to the prefers-color-scheme media query
+    prefersDark.addListener((mediaQuery) =>
+      document.body.classList.toggle("dark", mediaQuery.matches)
+    );
+
     const router = useRouter();
     const authStore = useAuth();
-    console.group('Auth Init');
-    authStore.init().then(async () => {
-      router.replace('/')
-      // Wait for the page to finish rendering
-      setTimeout(() => {
-        this.loading = false;
-      }, 200);
-    }).catch(async () => {
-      router.replace('/login')
-      // Wait for the page to finish rendering
-      setTimeout(() => {
-        this.loading = false;
-      }, 200);
-    });
+    console.group("Auth Init");
+    authStore
+      .init()
+      .then(async () => {
+        router.replace("/");
+        // Wait for the page to finish rendering
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      })
+      .catch(async () => {
+        router.replace("/login");
+        // Wait for the page to finish rendering
+        setTimeout(() => {
+          this.loading = false;
+        }, 200);
+      });
     console.groupEnd();
   },
   components: {
     IonApp,
     IonRouterOutlet,
     LoadingPage,
-  }
+  },
 });
 </script>
 
@@ -62,7 +75,7 @@ export default defineComponent({
 .fade-leave-to {
   opacity: 0;
 }
-main{
+main {
   max-width: 600px;
   margin: 0 auto;
   height: 100%;

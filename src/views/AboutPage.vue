@@ -1,17 +1,6 @@
 <template>
   <ion-page>
-    <!-- <ion-header>
-      <ion-toolbar>
-        <ion-title>عن الابلكيشن</ion-title>
-      </ion-toolbar>
-    </ion-header> -->
     <ion-content>
-      <!-- <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">عن الابلكيشن</ion-title>
-        </ion-toolbar>
-      </ion-header> -->
-
       <main>
         <div class="wrapper">
           <div>
@@ -23,7 +12,8 @@
             </ion-card-header>
             <ion-card-content>
               فيديوهات الواجب بتاعت كل باب اللي موجودة عندك في الابلكيشن الاصلي
-              هنا تقدر تشوفها في السايت او يوتيوب بشكل اسرع و اسهل من أي جهاز + دارك موود منعا لعمى الالوان اللي بيجيلنا من الاضائة العالية
+              هنا تقدر تشوفها في السايت او يوتيوب بشكل اسرع و اسهل من أي جهاز +
+              دارك موود منعا لعمى الالوان اللي بيجيلنا من الاضائة العالية
             </ion-card-content>
           </ion-card>
           <ion-card class="danger">
@@ -47,6 +37,13 @@
               <br />
               أي مشاكل تلاقيها دوس عالزرار اللي جواه اسمي و نطلي برايفت
             </ion-card-content>
+          </ion-card>
+          <ion-card>
+            <ion-item>
+              <ion-icon slot="start" :icon="moonOutline" />
+              <ion-label> دارك مود </ion-label>
+              <ion-toggle :checked="darkmodeEnabled" ref="themeToggle" @ionChange="toggleDarkMode" slot="end" color="primary"></ion-toggle>
+            </ion-item>
           </ion-card>
           <ion-card>
             <ion-item>
@@ -79,9 +76,6 @@
 <script>
 import {
   IonPage,
-  // IonHeader,
-  // IonToolbar,
-  // IonTitle,
   IonContent,
   IonCardHeader,
   IonCardTitle,
@@ -91,10 +85,11 @@ import {
   IonIcon,
   IonLabel,
   IonItem,
+  IonToggle,
 } from "@ionic/vue";
 import lottie from "../components/LottiePlayer.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
-import { person } from "ionicons/icons";
+import { person, moonOutline } from "ionicons/icons";
 import { useAuth } from "../stores/auth";
 
 export default {
@@ -102,17 +97,18 @@ export default {
     animationOptions: { animationData: alertAnimation },
     person,
     user: useAuth().user,
+    moonOutline,
   }),
   methods: {
+    toggleDarkMode(ev) {
+      document.body.classList.toggle('dark', ev.detail.checked);
+    },
     logout() {
       useAuth().logout();
       this.$router.push("/login");
     },
   },
   components: {
-    // IonHeader,
-    // IonToolbar,
-    // IonTitle,
     IonContent,
     IonPage,
     IonCard,
@@ -124,6 +120,12 @@ export default {
     IonLabel,
     IonItem,
     lottie,
+    IonToggle,
+  },
+  computed: {
+    darkmodeEnabled() {
+      return document.body.classList.contains("dark");
+    },
   },
 };
 </script>
