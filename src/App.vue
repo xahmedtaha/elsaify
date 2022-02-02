@@ -24,13 +24,13 @@ export default defineComponent({
     const authStore = useAuth();
     console.group('Auth Init');
     authStore.init().then(async () => {
-      await router.replace('/')
+      router.replace('/')
       // Wait for the page to finish rendering
       setTimeout(() => {
         this.loading = false;
       }, 200);
     }).catch(async () => {
-      await router.replace('/login')
+      router.replace('/login')
       // Wait for the page to finish rendering
       setTimeout(() => {
         this.loading = false;
