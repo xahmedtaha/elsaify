@@ -4,7 +4,6 @@
       @click="goToCourse"
       :button="course.money == '0.00'"
       :disabled="course.money != '0.00'"
-      mode="ios"
     >
       <ion-card-header>
         <ion-item lines="none" detail :detail-icon="chevronBack">
