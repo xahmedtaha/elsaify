@@ -35,7 +35,7 @@
               اعملها في الابلكيشن الاصلي بعد كدا ارجع هتلاقي فيديوهاتك هنا شغالة
               عظمة
               <br />
-              أي مشاكل تلاقيها دوس عالزرار اللي جواه اسمي و نطلي برايفت
+              أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و بعتلي برايفت
             </ion-card-content>
           </ion-card>
           <ion-card>
@@ -62,7 +62,7 @@
             <ion-button
               target="_system"
               size="small"
-              fill="outline"
+              fill="clear"
               href="https://www.facebook.com/profile.php?id=100053102670919"
               >Ahmed Taha</ion-button
             >
