@@ -1,8 +1,8 @@
 <template>
-  <ion-app mode="ios">
+  <ion-app mode="md">
     <transition name="fade">
       <loading-page v-if="loading" />
-      <ion-router-outlet mode="ios" v-else />
+      <ion-router-outlet mode="md" v-else />
     </transition>
   </ion-app>
 </template>
