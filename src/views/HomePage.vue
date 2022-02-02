@@ -86,6 +86,7 @@ export default {
       );
     },
     getCourses() {
+      this.error = false
       this.loading = true;
       axios
         .get(

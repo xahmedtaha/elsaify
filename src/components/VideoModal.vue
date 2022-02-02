@@ -13,7 +13,7 @@
     <div>
       <iframe
         ref="video"
-        :src="'https://www.youtube-nocookie.com/embed/' + videoID + '?showinfo=0&rel=0&frameborder=0&allowfullscreen&modestbranding=1'"
+        :src="'https://www.youtube-nocookie.com/embed/' + videoID + '?showinfo=0&rel=0&frameborder=0&allowfullscreen&modestbranding=0'"
         allowfullscreen
         allowtransparency
         allow="autoplay"
@@ -52,6 +52,7 @@ export default {
 <style scoped>
 iframe {
     width: 100%;
-    height: 360px;
+    min-height: 360px;
+    height: 100%;
 }
 </style>

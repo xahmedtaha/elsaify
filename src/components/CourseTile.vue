@@ -6,7 +6,7 @@
       :disabled="course.money != '0.00'"
     >
       <ion-card-header>
-        <ion-item lines="none" detail>
+        <ion-item lines="none" detail :detail-icon="chevronBack">
           <ion-label>
             <ion-card-subtitle>{{ course.text }}</ion-card-subtitle>
             <ion-card-title>{{ course.title }}</ion-card-title>
@@ -14,30 +14,6 @@
         </ion-item>
       </ion-card-header>
     </ion-card>
-
-    <!-- <ion-item
-      lines="none"
-      @click="goToCourse"
-      :detail="course.money == '0.00'"
-      :button="course.money == '0.00'"
-    >
-      <ion-avatar slot="start">
-        <ion-img
-          :src="'https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/' + course.img"
-        />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ course.title }}</h2>
-        <p>{{ course.text }}</p>
-      </ion-label>
-      <ion-icon
-        style="align-self: center; color: var(--ion-color-danger)"
-        slot="end"
-        :icon="closeCircle"
-        v-if="course.money != '0.00'"
-        >مش مشترك في الباب</ion-icon
-      >
-    </ion-item> -->
   </div>
 </template>
 
@@ -49,9 +25,8 @@ import {
   IonCardSubtitle,
   IonLabel,
   IonItem,
-  //   IonIcon,
 } from "@ionic/vue";
-import { closeCircle } from "ionicons/icons";
+import { closeCircle, chevronBack } from "ionicons/icons";
 export default {
   components: {
     // IonIcon,
@@ -64,7 +39,7 @@ export default {
   },
   props: ["course"],
   data: () => ({
-    closeCircle,
+    closeCircle, chevronBack,
   }),
   methods: {
     goToCourse() {

@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button default-href="/"></ion-back-button>
+          <ion-back-button :icon="arrowForward" default-href="/"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ this.$route.query.title }}</ion-title>
       </ion-toolbar>
@@ -136,7 +136,7 @@ import {
   IonSpinner,
   //   IonIcon,
 } from "@ionic/vue";
-import { playCircle } from "ionicons/icons";
+import { playCircle, arrowForward } from "ionicons/icons";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import VideoModal from "../components/VideoModal.vue";
@@ -146,6 +146,7 @@ export default {
     data: [],
     error: false,
     playCircle,
+    arrowForward,
     segment: "lessons",
   }),
   components: {
@@ -189,7 +190,7 @@ export default {
         component: VideoModal,
         componentProps: options,
         cssClass: "video-modal",
-        backdropDismiss: true,
+        backdropDismiss: false,
         showBackdrop: true,
       });
       return modal.present();
@@ -198,6 +199,7 @@ export default {
       this.segment = ev.detail.value;
     },
     getData() {
+      this.error = false
       this.loading = true;
       axios
         .get(
