@@ -40,7 +40,7 @@
           </ion-card>
           <ion-card>
             <ion-item>
-              <ion-icon slot="start" :icon="moonOutline" />
+              <ion-icon slot="start" :icon="moon" />
               <ion-label> دارك مود </ion-label>
               <ion-toggle :checked="darkmodeEnabled" ref="themeToggle" @ionChange="toggleDarkMode" slot="end" color="primary"></ion-toggle>
             </ion-item>
@@ -89,7 +89,7 @@ import {
 } from "@ionic/vue";
 import lottie from "../components/LottiePlayer.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
-import { person, moonOutline } from "ionicons/icons";
+import { person, moon } from "ionicons/icons";
 import { useAuth } from "../stores/auth";
 
 export default {
@@ -97,7 +97,7 @@ export default {
     animationOptions: { animationData: alertAnimation },
     person,
     user: useAuth().user,
-    moonOutline,
+    moon,
   }),
   methods: {
     toggleDarkMode(ev) {
