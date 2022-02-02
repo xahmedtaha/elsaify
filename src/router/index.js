@@ -25,7 +25,7 @@ const routes = [
     path: "/course",
     props: true,
     // component: () => import("../views/CoursePage.vue"),
-    component: () => CoursePage,
+    component: CoursePage,
   },
   {
     path: "/",
