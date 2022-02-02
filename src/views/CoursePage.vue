@@ -3,7 +3,10 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button :icon="arrowForward" default-href="/"></ion-back-button>
+          <ion-back-button
+            :icon="arrowForward"
+            default-href="/"
+          ></ion-back-button>
         </ion-buttons>
         <ion-title>{{ this.$route.query.title }}</ion-title>
       </ion-toolbar>
@@ -101,6 +104,9 @@
             <ion-text color="danger"
               >ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text
             >
+            <ion-text color="primary"
+              >(اتأكد انك مشترك في الباب في الابلكيشن)</ion-text
+            >
             <ion-button
               size="small"
               style="margin-top: 15px; --box-shadow: none"
@@ -148,7 +154,7 @@ export default {
     playCircle,
     arrowForward,
     segment: "lessons",
-    chevronForward
+    chevronForward,
   }),
   components: {
     IonPage,
@@ -200,7 +206,7 @@ export default {
       this.segment = ev.detail.value;
     },
     getData() {
-      this.error = false
+      this.error = false;
       this.loading = true;
       axios
         .get(

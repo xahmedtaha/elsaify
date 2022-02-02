@@ -1,10 +1,6 @@
 <template>
   <div>
-    <ion-card
-      @click="goToCourse"
-      :button="course.money == '0.00'"
-      :disabled="course.money != '0.00'"
-    >
+    <ion-card @click="goToCourse" button>
       <ion-card-header>
         <ion-item lines="none" detail :detail-icon="chevronBack">
           <ion-label>
@@ -39,20 +35,19 @@ export default {
   },
   props: ["course"],
   data: () => ({
-    closeCircle, chevronBack,
+    closeCircle,
+    chevronBack,
   }),
   methods: {
     goToCourse() {
       console.log(this.course);
-      if (this.course.money == "0.00") {
-        this.$router.push({
-          path: "/course",
-          query: {
-            id: this.course.id,
-            title: this.course.title,
-          },
-        });
-      }
+      this.$router.push({
+        path: "/course",
+        query: {
+          id: this.course.id,
+          title: this.course.title,
+        },
+      });
     },
   },
 };
