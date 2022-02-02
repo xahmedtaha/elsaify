@@ -12,12 +12,13 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonSpinner } from "@ionic/vue";
+import { IonPage, IonContent, IonSpinner, IonImg } from "@ionic/vue";
 export default {
   components: {
     IonContent,
     IonPage,
     IonSpinner,
+    IonImg,
   },
 };
 </script>

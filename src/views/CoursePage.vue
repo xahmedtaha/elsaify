@@ -21,7 +21,7 @@
     <ion-content>
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">{{ title }}</ion-title>
+          <ion-title size="large">{{ this.$route.query.title }}</ion-title>
         </ion-toolbar>
       </ion-header>
       <main>
@@ -39,6 +39,12 @@
                 )"
                 :key="video.id"
                 button
+                @click="
+                  openVideo({
+                    title: video.title,
+                    videoID: getVideoID(video.url),
+                  })
+                "
               >
                 <ion-item
                   detail
@@ -61,10 +67,17 @@
             </div>
             <div v-show="segment == 'lessons'">
               <ion-card
-                v-for="video in data.filter((a) =>
-                  !['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some((b) =>
-                    a.title.includes(b)
-                  )
+                @click="
+                  openVideo({
+                    title: video.title,
+                    videoID: getVideoID(video.url),
+                  })
+                "
+                v-for="video in data.filter(
+                  (a) =>
+                    !['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some((b) =>
+                      a.title.includes(b)
+                    )
                 )"
                 :key="video.id"
                 button
@@ -108,6 +121,7 @@
 
 <script>
 import {
+  modalController,
   IonPage,
   IonHeader,
   IonToolbar,
@@ -117,14 +131,24 @@ import {
   IonBackButton,
   IonSegment,
   IonSegmentButton,
+  IonText,
+  IonLabel,
+  IonItem,
+  IonCard,
+  IonAvatar,
+  IonImg,
+  IonButton,
+  IonSpinner,
   //   IonIcon,
 } from "@ionic/vue";
 import { playCircle } from "ionicons/icons";
 import axios from "axios";
+import CryptoJS from "crypto-js";
+import VideoModal from "../components/VideoModal.vue";
 export default {
   data: () => ({
     loading: true,
-    data: null,
+    data: [],
     error: false,
     playCircle,
     segment: "lessons",
@@ -139,22 +163,49 @@ export default {
     IonBackButton,
     IonSegment,
     IonSegmentButton,
-    //   IonIcon,
+    IonText,
+    IonLabel,
+    IonItem,
+    IonCard,
+    IonAvatar,
+    IonImg,
+    IonButton,
+    IonSpinner,
   },
   mounted() {
     this.getData();
   },
   methods: {
-    segmentChanged(ev) {
-      console.log("Segment changed", ev);
-      this.segment = ev.detail.value;
+    getVideoID(url) {
+      const decrypted = CryptoJS.AES.decrypt(
+        url,
+        CryptoJS.enc.Utf8.parse("aplusencurlsaify"),
+        {
+          mode: CryptoJS.mode.CBC,
+          iv: CryptoJS.enc.Utf8.parse("apluscode.comivs"),
+          padding: CryptoJS.pad.Pkcs7,
+        }
+      ).toString(CryptoJS.enc.Utf8);
 
+      return decrypted.substring(decrypted.lastIndexOf("/") + 1);
+    },
+    async openVideo(options) {
+      const modal = await modalController.create({
+        component: VideoModal,
+        componentProps: options,
+        cssClass: "video-modal",
+        backdropDismiss: false,
+      });
+      return modal.present();
+    },
+    segmentChanged(ev) {
+      this.segment = ev.detail.value;
     },
     getData() {
       this.loading = true;
       axios
         .get(
-          "https://elsaify.elameed.education/elsefy/api/desktop/getCourseFiles?cId=" +
+          "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getCourseFiles?cId=" +
             this.$route.query.id +
             "&package=0&type=0&sub=0",
           { crossdomain: true }

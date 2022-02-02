@@ -1,8 +1,12 @@
 <template>
   <div>
-    <ion-card @click="goToCourse" :button="course.money == '0.00'" :disabled="course.money != '0.00'">
+    <ion-card
+      @click="goToCourse"
+      :button="course.money == '0.00'"
+      :disabled="course.money != '0.00'"
+    >
       <ion-card-header>
-        <ion-item lines="none" :detail="course.money == '0.00'">
+        <ion-item lines="none" detail>
           <ion-label>
             <ion-card-subtitle>{{ course.text }}</ion-card-subtitle>
             <ion-card-title>{{ course.title }}</ion-card-title>
@@ -19,7 +23,7 @@
     >
       <ion-avatar slot="start">
         <ion-img
-          :src="'https://elsaify.elameed.education/elsefy/' + course.img"
+          :src="'https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/' + course.img"
         />
       </ion-avatar>
       <ion-label>
@@ -38,11 +42,25 @@
 </template>
 
 <script>
-// import { IonIcon } from "@ionic/vue";
+import {
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonLabel,
+  IonItem,
+  //   IonIcon,
+} from "@ionic/vue";
 import { closeCircle } from "ionicons/icons";
 export default {
   components: {
     // IonIcon,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonLabel,
+    IonItem,
   },
   props: ["course"],
   data: () => ({
@@ -72,10 +90,10 @@ ion-card {
 ion-item {
   --background: transparent;
 }
-ion-card-title{
+ion-card-title {
   font-size: 1.1rem;
 }
-ion-card-header{
+ion-card-header {
   padding: 12px;
 }
 </style>

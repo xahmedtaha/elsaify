@@ -89,6 +89,9 @@ import {
   IonCardContent,
   IonButton,
   IonCard,
+  IonIcon,
+  IonLabel,
+  IonItem,
 } from "@ionic/vue";
 import lottie from "vue-lottie";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
@@ -118,6 +121,9 @@ export default {
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
+    IonIcon,
+    IonLabel,
+    IonItem,
     lottie,
   },
 };

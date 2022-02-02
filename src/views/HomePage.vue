@@ -51,6 +51,10 @@ import {
   // IonHeader,
   // IonToolbar,
   // IonTitle,
+  IonSpinner,
+  IonImg,
+  IonText,
+  IonButton,
   IonContent,
 } from "@ionic/vue";
 import axios from "axios";
@@ -85,7 +89,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          "https://elsaify.elameed.education/elsefy/api/desktop/getSubCourses?package=0&sub=0&type=5",
+          "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getSubCourses?package=0&sub=0&type=5",
           { crossdomain: true }
         )
         .then((res) => {
@@ -107,6 +111,10 @@ export default {
     IonContent,
     IonPage,
     CourseTile,
+    IonSpinner,
+    IonImg,
+    IonText,
+    IonButton,
   },
 };
 </script>
@@ -134,5 +142,4 @@ ion-img {
   height: 150px;
   margin-bottom: 30px;
 }
-
 </style>

@@ -67,4 +67,8 @@ main{
   margin: 0 auto;
   height: 100%;
 }
+.video-modal {
+  --min-height: 460px;
+  --height: auto;
+}
 </style>

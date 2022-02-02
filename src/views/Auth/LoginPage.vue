@@ -66,6 +66,7 @@ import {
   useIonRouter,
   IonSpinner,
   alertController,
+  IonNote,
 } from "@ionic/vue";
 import { call, lockClosed } from "ionicons/icons";
 import { useAuth } from "../../stores/auth";
@@ -81,6 +82,7 @@ export default {
     IonInput,
     IonButton,
     IonSpinner,
+    IonNote,
   },
   setup() {
     const router = useIonRouter();

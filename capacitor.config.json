@@ -1,0 +1,6 @@
+{
+  "appId": "com.ignitionsoftware.elsaify",
+  "appName": "El Saify",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

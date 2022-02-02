@@ -21,6 +21,7 @@ import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
 /* Theme variables */
+// import 'plyr/dist/plyr.css';
 import './theme/variables.css';
 
 // Global Store
