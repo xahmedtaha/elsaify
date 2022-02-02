@@ -3,18 +3,19 @@
     <ion-content>
       <div class="container">
         <div class="wrapper">
-          <ion-title>تسجيل الدخول</ion-title>
+          <ion-img src="/assets/img/amr.png" class="logo"></ion-img>
           <form @submit.prevent="login">
             <ion-item color="light" fill="fill">
               <ion-label position="floating">رقم التليفون</ion-label>
               <ion-input
                 :disabled="loading"
                 required
-                v-model="phone"
+                v-model.trim="phone"
+                name="phone"
                 type="number"
                 inputmode="numeric"
-                value=""
                 placeholder="01XXXXXXXXX"
+                @keyup.enter="login"
               ></ion-input>
               <ion-icon color="primary" :icon="call" slot="end"></ion-icon>
             </ion-item>
@@ -23,10 +24,11 @@
               <ion-input
                 :disabled="loading"
                 required
-                v-model="password"
+                v-model.trim="password"
                 type="password"
-                value=""
+                name="password"
                 placeholder="أدخل كلمة السر"
+                @keyup.enter="login"
               ></ion-input>
               <ion-icon
                 color="primary"
@@ -43,8 +45,17 @@
               <span v-show="!loading">تسجيل الدخول</span>
               <ion-spinner name="crescent" v-show="loading"></ion-spinner>
             </ion-button>
-            <div style="display: flex; flex-direction: column; justify-items: center">
-              <ion-note style="text-align: center; margin: 20px auto; max-width: 300px">لو معندكش أكونت اعمل واحد من الأبلكيشن الأصلي</ion-note>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-items: center;
+              "
+            >
+              <ion-note
+                style="text-align: center; margin: 20px auto; max-width: 300px"
+                >لو معندكش أكونت اعمل واحد من الأبلكيشن الأصلي</ion-note
+              >
             </div>
           </form>
         </div>
@@ -56,7 +67,6 @@
 <script>
 import {
   IonPage,
-  IonTitle,
   IonContent,
   IonIcon,
   IonItem,
@@ -67,13 +77,13 @@ import {
   IonSpinner,
   alertController,
   IonNote,
+  IonImg,
 } from "@ionic/vue";
 import { call, lockClosed } from "ionicons/icons";
 import { useAuth } from "../../stores/auth";
 import { ref } from "vue";
 export default {
   components: {
-    IonTitle,
     IonContent,
     IonPage,
     IonIcon,
@@ -83,6 +93,7 @@ export default {
     IonButton,
     IonSpinner,
     IonNote,
+    IonImg,
   },
   setup() {
     const router = useIonRouter();
@@ -158,5 +169,11 @@ ion-icon {
 ion-item {
   /* --border-width: 1px; */
   --border-radius: 4px;
+}
+.logo {
+  margin-right: auto;
+  margin-left: auto;
+  height: 150px;
+  margin-bottom: 30px;
 }
 </style>

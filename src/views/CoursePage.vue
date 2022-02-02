@@ -19,11 +19,6 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">{{ this.$route.query.title }}</ion-title>
-        </ion-toolbar>
-      </ion-header>
       <main>
         <transition name="fade">
           <div class="wrapper" v-if="loading">
