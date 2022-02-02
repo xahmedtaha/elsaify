@@ -28,6 +28,7 @@
 import { modalController } from "@ionic/vue";
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, IonButtons } from "@ionic/vue";
 import { close } from "ionicons/icons";
+import { useBackButton } from '@ionic/vue';
 export default {
   components: {
     IonHeader,
@@ -44,7 +45,9 @@ export default {
     modalController
   }),
   mounted() {
-    // this.player = new Plyr(this.$refs.video);
+    useBackButton(1, () => {
+      modalController.dismiss();
+    });
   },
 };
 </script>
