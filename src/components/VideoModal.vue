@@ -13,13 +13,17 @@
     <div>
       <iframe
         ref="video"
-        :src="'https://www.youtube-nocookie.com/embed/' + videoID + '?showinfo=0&rel=0&frameborder=0&allowfullscreen&modestbranding=0'"
+        :src="'https://www.youtube-nocookie.com/embed/' + videoID + '?showinfo=0&rel=0&frameborder=0&allowfullscreen&modestbranding=1'"
         allowfullscreen
         allowtransparency
         allow="autoplay"
         frameborder="0"
       ></iframe>
     </div>
+    <ion-button class="ion-margin-top" :href="'https://youtu.be/' + videoID" target="_system" color="danger" size="large">
+      <ion-icon slot="start" :icon="logoYoutube" />
+      اتفرج على اليوتيوب
+    </ion-button>
   </ion-content>
 </template>
 
@@ -27,7 +31,7 @@
 // import Plyr from "plyr";
 import { modalController } from "@ionic/vue";
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, IonButtons } from "@ionic/vue";
-import { close } from "ionicons/icons";
+import { close, logoYoutube } from "ionicons/icons";
 import { useBackButton } from '@ionic/vue';
 export default {
   components: {
@@ -41,7 +45,7 @@ export default {
   props: ["title", "videoID"],
   data: () => ({
     player: null,
-    close,
+    close, logoYoutube,
     modalController
   }),
   mounted() {

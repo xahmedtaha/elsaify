@@ -1,4 +1,6 @@
-import { defineStore } from "pinia";
+import {
+  defineStore
+} from "pinia";
 import axios from "axios";
 
 const fakeSerial = "No More Bans <3";
@@ -15,16 +17,20 @@ export const useAuth = defineStore("auth", {
     async init() {
       axios.interceptors.response.use(
         (response) => {
-          if((response.data.code == 401 || response.data.code == 403) && !!this.token) {
-            this.logout();
-            this.router.push("/login");
-            return Promise.reject(response);
+          if ((response.data.code == 401 || response.data.code == 403) && !!this.token) {
+            this.login().then(() => {
+
+            }).catch(() => {
+              this.logout();
+              this.router.push("/login");
+              return Promise.reject(response);
+            });
           }
           return response;
         },
         (error) => {
           console.log(error.response.status)
-          if((error.response.status == 401 || error.response.status == 403) && !!this.token) {
+          if ((error.response.status == 401 || error.response.status == 403) && !!this.token) {
             this.logout();
             this.router.push("/login");
             return Promise.reject(error);
@@ -40,8 +46,7 @@ export const useAuth = defineStore("auth", {
 
           axios
             .get(
-              "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/login?",
-              {
+              "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/login?", {
                 crossdomain: true,
                 params: {
                   phone,
@@ -76,13 +81,15 @@ export const useAuth = defineStore("auth", {
         } else reject();
       });
     },
-    async login({ phone, password }) {
+    async login({
+      phone,
+      password
+    }) {
       // eslint-disable-next-line no-unused-vars
       return new Promise((resolve, reject) => {
         axios
           .get(
-            "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/login?",
-            {
+            "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/login?", {
               crossdomain: true,
               params: {
                 phone,
