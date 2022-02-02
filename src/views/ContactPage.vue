@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import lottie from "vue-lottie";
+import lottie from "../components/Lottie";
 import * as contactAnimation from "../../public/assets/animations/contact.json";
 import {
   IonPage,
