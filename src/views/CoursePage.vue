@@ -190,6 +190,7 @@ export default {
         componentProps: options,
         cssClass: "video-modal",
         backdropDismiss: false,
+        showBackdrop: true,
       });
       return modal.present();
     },
