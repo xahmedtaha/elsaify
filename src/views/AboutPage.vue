@@ -23,7 +23,7 @@
             </ion-card-header>
             <ion-card-content>
               فيديوهات الواجب بتاعت كل باب اللي موجودة عندك في الابلكيشن الاصلي
-              هنا مع مشغل فيديوهات اسرع و اسهل في الاستعمال
+              هنا تقدر تشوفها في السايت او يوتيوب بشكل اسرع و اسهل من أي جهاز + دارك موود منعا لعمى الالوان اللي بيجيلنا من الاضائة العالية
             </ion-card-content>
           </ion-card>
           <ion-card class="danger">
@@ -37,7 +37,7 @@
           </ion-card>
           <ion-card class="warning">
             <ion-card-header>
-              <ion-card-title> اشطا ؟ </ion-card-title>
+              <ion-card-title> تمام ؟ </ion-card-title>
             </ion-card-header>
             <ion-card-content>
               فمؤقتا أي حاجه غير انك تتفرج على فيديوهات الواجب (زي انك تشوف كيو
