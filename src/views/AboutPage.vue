@@ -40,7 +40,7 @@
             </ion-card-content>
           </ion-card>
           <ion-card>
-            <ion-item>
+            <ion-item lines="none">
               <ion-icon slot="start" :icon="moon" />
               <ion-label> دارك مود </ion-label>
               <ion-toggle
@@ -53,19 +53,19 @@
             </ion-item>
           </ion-card>
           <ion-card>
-            <ion-item>
+            <ion-item lines="none">
               <ion-icon slot="start" :icon="person" />
               <ion-label>
                 <h3>{{ user.name }}</h3>
                 <p>#{{ user.id }}</p>
               </ion-label>
-              <ion-button slot="end" color="danger" @click="logout"
+              <ion-button fill="clear" strong slot="end" size="small" color="danger" @click="logout"
                 >تسجيل الخروج</ion-button
               >
             </ion-item>
           </ion-card>
           <div class="credits">
-            <ion-text>Built By</ion-text>
+            <ion-text style="font-size: 14px">Built By</ion-text>
             <ion-button
               target="_system"
               size="small"
@@ -151,5 +151,10 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-items: center;
+}
+ion-card {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 8px;
 }
 </style>

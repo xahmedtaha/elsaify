@@ -1,8 +1,8 @@
 <template>
   <ion-app mode="md">
     <transition name="fade">
-      <loading-page v-show="loading" />
-      <ion-router-outlet mode="md" v-show="!loading" />
+      <loading-page v-if="loading" />
+      <ion-router-outlet mode="md" v-else />
     </transition>
   </ion-app>
 </template>
@@ -79,9 +79,9 @@ export default defineComponent({
 </script>
 
 <style>
-body:not(.dark) ion-content {
+/* body:not(.dark) ion-content {
   --background: var(--ion-color-light);
-}
+} */
 
 .fade-enter-active,
 .fade-leave-active {

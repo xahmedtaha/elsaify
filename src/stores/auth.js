@@ -69,23 +69,8 @@ export const useAuth = defineStore("auth", {
             }
           },
           (error) => {
-            console.log(error.response.status)
             if ((error.response.status == 401 || error.response.status == 403) && !!this.token) {
-              delete axios.defaults.headers.common[
-                "Authorization"
-              ];
-              this.login({
-                phone: this.user.phone,
-                password: localStorage.getItem("password"),
-              }).then(() => {
-                this.router.push("/");
-                return Promise.reject(error);
-              }).catch(() => {
-                console.error("Re-Login Error")
-                this.logout();
-                this.router.push("/login");
-                return Promise.reject(error);
-              });
+              window.location.reload();
             } else {
               return Promise.reject(error);
             }
