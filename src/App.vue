@@ -13,6 +13,8 @@ import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useAuth } from "./stores/auth";
 import LoadingPage from "./views/LoadingPage.vue";
+import { StatusBar, Style } from "@capacitor/status-bar";
+import { isPlatform } from "@ionic/vue";
 
 export default defineComponent({
   name: "App",
@@ -24,11 +26,29 @@ export default defineComponent({
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
     document.body.classList.toggle("dark", prefersDark.matches);
+    if (isPlatform("capacitor")) {
+      if (prefersDark.matches) {
+        StatusBar.setStyle({ style: Style.Dark });
+        StatusBar.setBackgroundColor({ color: "#121212" });
+      } else {
+        StatusBar.setStyle({ style: Style.Light });
+        StatusBar.setBackgroundColor({ color: "#f4f5f8" });
+      }
+    }
 
     // Listen for changes to the prefers-color-scheme media query
-    prefersDark.addListener((mediaQuery) =>
-      document.body.classList.toggle("dark", mediaQuery.matches)
-    );
+    prefersDark.addEventListener("change", (mediaQuery) => {
+      document.body.classList.toggle("dark", mediaQuery.matches);
+      if (isPlatform("capacitor")) {
+        if (mediaQuery.matches) {
+          StatusBar.setStyle({ style: Style.Dark });
+          StatusBar.setBackgroundColor({ color: "#121212" });
+        } else {
+          StatusBar.setStyle({ style: Style.Light });
+          StatusBar.setBackgroundColor({ color: "#f4f5f8" });
+        }
+      }
+    });
 
     const router = useRouter();
     const authStore = useAuth();

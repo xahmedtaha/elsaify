@@ -46,6 +46,7 @@ export default {
         query: {
           id: this.course.id,
           title: this.course.title,
+          type: this.course.type,
         },
       });
     },

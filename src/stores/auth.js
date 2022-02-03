@@ -2,8 +2,11 @@ import {
   defineStore
 } from "pinia";
 import axios from "axios";
+import {
+  Device
+} from '@capacitor/device';
 
-const fakeSerial = "No More Bans <3";
+// const fakeSerial = "No More Bans <3";
 
 export const useAuth = defineStore("auth", {
   state: () => {
@@ -15,6 +18,7 @@ export const useAuth = defineStore("auth", {
 
   actions: {
     async init() {
+      const serial = (await Device.getId()).uuid;
       return new Promise((resolve, reject) => {
         if (localStorage.getItem("phone")) {
           const phone = localStorage.getItem("phone");
@@ -27,7 +31,7 @@ export const useAuth = defineStore("auth", {
                 params: {
                   phone,
                   password,
-                  serial: fakeSerial,
+                  serial,
                 },
               }
             )
@@ -59,21 +63,7 @@ export const useAuth = defineStore("auth", {
         axios.interceptors.response.use(
           (response) => {
             if ((response.data.code == 401 || response.data.code == 403) && !!this.token) {
-              delete axios.defaults.headers.common[
-                "Authorization"
-              ];
-              this.login({
-                phone: this.user.phone,
-                password: localStorage.getItem("password"),
-              }).then(() => {
-                this.router.push("/");
-                return Promise.reject(response);
-              }).catch((err) => {
-                console.error(err)
-                this.logout();
-                this.router.push("/login");
-                return Promise.reject(response);
-              });
+              window.location.reload();
             } else {
               return response;
             }
@@ -108,6 +98,7 @@ export const useAuth = defineStore("auth", {
       phone,
       password
     }) {
+      const serial = await Device.getId();
       // eslint-disable-next-line no-unused-vars
       return new Promise((resolve, reject) => {
         axios
@@ -117,7 +108,7 @@ export const useAuth = defineStore("auth", {
               params: {
                 phone,
                 password,
-                serial: fakeSerial,
+                serial,
               },
             }
           )

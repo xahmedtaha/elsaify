@@ -35,14 +35,21 @@
               اعملها في الابلكيشن الاصلي بعد كدا ارجع هتلاقي فيديوهاتك هنا شغالة
               عظمة
               <br />
-              أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و بعتلي برايفت
+              أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و ابعتلي برايفت
+              او اعملي منشن في الجروب
             </ion-card-content>
           </ion-card>
           <ion-card>
             <ion-item>
               <ion-icon slot="start" :icon="moon" />
               <ion-label> دارك مود </ion-label>
-              <ion-toggle :checked="darkmodeEnabled" ref="themeToggle" @ionChange="toggleDarkMode" slot="end" color="primary"></ion-toggle>
+              <ion-toggle
+                :checked="darkmodeEnabled"
+                ref="themeToggle"
+                @ionChange="toggleDarkMode"
+                slot="end"
+                color="primary"
+              ></ion-toggle>
             </ion-item>
           </ion-card>
           <ion-card>
@@ -101,7 +108,7 @@ export default {
   }),
   methods: {
     toggleDarkMode(ev) {
-      document.body.classList.toggle('dark', ev.detail.checked);
+      document.body.classList.toggle("dark", ev.detail.checked);
     },
     logout() {
       useAuth().logout();
