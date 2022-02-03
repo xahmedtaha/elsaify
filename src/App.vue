@@ -1,8 +1,8 @@
 <template>
   <ion-app mode="md">
     <transition name="fade">
-      <loading-page v-if="loading" />
-      <ion-router-outlet mode="md" v-else />
+      <loading-page v-show="loading" />
+      <ion-router-outlet mode="md" v-show="!loading" />
     </transition>
   </ion-app>
 </template>
@@ -52,17 +52,16 @@ export default defineComponent({
 
     const router = useRouter();
     const authStore = useAuth();
-    console.group("Auth Init");
     authStore
       .init()
-      .then(async () => {
+      .then(() => {
         router.replace("/");
         // Wait for the page to finish rendering
         setTimeout(() => {
           this.loading = false;
         }, 200);
       })
-      .catch(async () => {
+      .catch(() => {
         router.replace("/login");
         // Wait for the page to finish rendering
         setTimeout(() => {
