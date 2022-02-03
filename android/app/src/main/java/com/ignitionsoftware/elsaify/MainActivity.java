@@ -25,15 +25,13 @@ public class MainActivity extends BridgeActivity {
             }
             // Before Android 10, we need to use a CSS class based fallback
             this.bridge.getWebView().evaluateJavascript("document.body.classList.toggle('dark', true);", null);
-            getWindow().setNavigationBarColor(Color.parseColor("#1f1f1f"));
-
+//            getWindow().setNavigationBarColor(Color.parseColor("#1f1f1f"));
         } else {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
                 webSettings.setForceDark(WebSettings.FORCE_DARK_OFF);
             }
             this.bridge.getWebView().evaluateJavascript("document.body.classList.toggle('dark', false);", null);
-            getWindow().setNavigationBarColor(Color.parseColor("#FFFFFF"));
-            this.bridge.getWebView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+//            getWindow().setNavigationBarColor(Color.parseColor("#FFFFFF"));
         }
     }
 

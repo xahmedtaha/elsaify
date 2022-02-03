@@ -49,8 +49,12 @@ export default {
     modalController
   }),
   mounted() {
-    useBackButton(1, () => {
-      modalController.dismiss();
+    useBackButton(1, async (processNextHandler) => {
+      if(await modalController.getTop()) {
+        this.modalController.dismiss();
+      } else {
+        processNextHandler();
+      }
     });
   },
 };

@@ -6,7 +6,7 @@
           <ion-img src="/assets/img/amr.png" class="logo"></ion-img>
           <form @submit.prevent="login">
             <ion-item color="light" fill="fill">
-              <ion-label position="floating">رقم التليفون</ion-label>
+              <ion-label position="stacked">رقم التليفون</ion-label>
               <ion-input
                 :disabled="loading"
                 required
@@ -20,7 +20,7 @@
               <ion-icon color="primary" :icon="call" slot="end"></ion-icon>
             </ion-item>
             <ion-item color="light" fill="fill">
-              <ion-label position="floating">كلمة السر</ion-label>
+              <ion-label position="stacked">كلمة السر</ion-label>
               <ion-input
                 :disabled="loading"
                 required
@@ -142,6 +142,7 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100%;
+  min-height: 550px;
 }
 .wrapper {
   max-width: 500px;

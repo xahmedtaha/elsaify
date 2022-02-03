@@ -35,8 +35,8 @@
               اعملها في الابلكيشن الاصلي بعد كدا ارجع هتلاقي فيديوهاتك هنا شغالة
               عظمة
               <br />
-              أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و ابعتلي برايفت
-              او اعملي منشن في الجروب
+              أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و ابعتلي برايفت او
+              اعملي منشن في الجروب
             </ion-card-content>
           </ion-card>
           <ion-card>
@@ -65,7 +65,7 @@
             </ion-item>
           </ion-card>
           <div class="credits">
-            Built By
+            <ion-text>Built By</ion-text>
             <ion-button
               target="_system"
               size="small"
@@ -93,6 +93,7 @@ import {
   IonLabel,
   IonItem,
   IonToggle,
+  IonText,
 } from "@ionic/vue";
 import lottie from "../components/LottiePlayer.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
@@ -128,6 +129,7 @@ export default {
     IonItem,
     lottie,
     IonToggle,
+    IonText,
   },
   computed: {
     darkmodeEnabled() {
