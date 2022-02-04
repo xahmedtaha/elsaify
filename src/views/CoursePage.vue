@@ -38,7 +38,7 @@
                 :key="video.id"
                 button
                 @click="
-                  openVideo({
+                  presentActionSheet({
                     title: video.title,
                     videoID: getVideoID(video.url),
                   })
@@ -66,7 +66,7 @@
             <div v-show="segment == 'lessons'">
               <ion-card
                 @click="
-                  openVideo({
+                  presentActionSheet({
                     title: video.title,
                     videoID: getVideoID(video.url),
                   })
@@ -123,6 +123,7 @@
 <script>
 import {
   modalController,
+  actionSheetController,
   IonPage,
   IonHeader,
   IonToolbar,
@@ -142,7 +143,7 @@ import {
   IonSpinner,
   //   IonIcon,
 } from "@ionic/vue";
-import { playCircle, arrowForward, chevronForward } from "ionicons/icons";
+import { playCircle, arrowForward, chevronForward, laptopOutline, logoYoutube } from "ionicons/icons";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import VideoModal from "../components/VideoModal.vue";
@@ -179,6 +180,29 @@ export default {
     this.getData();
   },
   methods: {
+    async presentActionSheet(options) {
+      const actionSheet = await actionSheetController.create({
+        subHeader: "اختار طريقة المشاهدة",
+        header: options.title,
+        buttons: [
+          {
+            text: "هنا جوا الأبلكيشن",
+            icon: laptopOutline,
+            handler: () => {
+              this.openVideo(options)
+            },
+          },
+          {
+            text: "على أبلكيشن يوتيوب",
+            icon: logoYoutube,
+            handler: () => {
+              window.open('https://youtu.be/' + options.videoID, '_system');
+            },
+          },
+        ],
+      });
+      await actionSheet.present();
+    },
     getVideoID(url) {
       const decrypted = CryptoJS.AES.decrypt(
         url,
