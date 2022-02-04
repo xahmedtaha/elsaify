@@ -29,75 +29,101 @@
           </div>
           <div v-else-if="!error" class="courses-wrapper">
             <div v-show="segment == 'exams'">
-              <ion-card
-                v-for="video in data.filter((a) =>
-                  ['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some((b) =>
-                    a.title.includes(b)
-                  )
-                )"
-                :key="video.id"
-                button
-                @click="
-                  presentActionSheet({
-                    title: video.title,
-                    videoID: getVideoID(video.url),
-                  })
-                "
-              >
-                <ion-item
-                  detail
-                  lines="none"
-                  :detail-icon="playCircle"
-                  class="course"
+              <ion-accordion-group expand="inset">
+                <ion-accordion
+                  v-for="(section, index) in getVideoSections(
+                    data.filter((a) =>
+                      ['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some((b) =>
+                        a.title.includes(b)
+                      )
+                    )
+                  )"
+                  :key="index"
                 >
-                  <ion-avatar slot="start">
-                    <ion-img
-                      :src="
-                        'https://elsaify.elameed.education/elsefy/' + video.img
+                  <ion-item lines="none" slot="header">
+                    <ion-label>{{ section.title }}</ion-label>
+                  </ion-item>
+
+                  <ion-list slot="content">
+                    <ion-item
+                      @click="
+                        presentActionSheet({
+                          title: video.title,
+                          videoID: getVideoID(video.url),
+                        })
                       "
-                    />
-                  </ion-avatar>
-                  <ion-label>
-                    {{ video.title }}
-                  </ion-label>
-                </ion-item>
-              </ion-card>
+                      v-for="video in section.data"
+                      :key="video.id"
+                      button
+                      detail
+                      lines="none"
+                      :detail-icon="playCircle"
+                      class="course"
+                    >
+                      <ion-avatar slot="start">
+                        <ion-img
+                          :src="
+                            'https://elsaify.elameed.education/elsefy/' +
+                            video.img
+                          "
+                        />
+                      </ion-avatar>
+                      <ion-label>
+                        {{ video.title }}
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ion-accordion>
+              </ion-accordion-group>
             </div>
             <div v-show="segment == 'lessons'">
-              <ion-card
-                @click="
-                  presentActionSheet({
-                    title: video.title,
-                    videoID: getVideoID(video.url),
-                  })
-                "
-                v-for="video in data.filter(
-                  (a) =>
-                    !['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some((b) =>
-                      a.title.includes(b)
+              <ion-accordion-group expand="inset">
+                <ion-accordion
+                  v-for="(section, index) in getVideoSections(
+                    data.filter(
+                      (a) =>
+                        !['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some(
+                          (b) => a.title.includes(b)
+                        )
                     )
-                )"
-                :key="video.id"
-                button
-              >
-                <ion-item
-                  detail
-                  lines="none"
-                  :detail-icon="playCircle"
-                  class="course"
+                  )"
+                  :key="index"
                 >
-                  <ion-avatar slot="start">
-                    <ion-img
-                      :src="
-                        'https://elsaify.elameed.education/elsefy/' + video.img
+                  <ion-item lines="none" slot="header">
+                    <ion-label>{{ section.title }}</ion-label>
+                  </ion-item>
+
+                  <ion-list slot="content">
+                    <ion-item
+                      @click="
+                        presentActionSheet({
+                          title: video.title,
+                          videoID: getVideoID(video.url),
+                        })
                       "
-                    />
-                  </ion-avatar>
-                  <ion-label>
-                    {{ video.title }}
-                  </ion-label>
-                </ion-item>
-              </ion-card>
+                      v-for="video in section.data"
+                      :key="video.id"
+                      button
+                      detail
+                      lines="none"
+                      :detail-icon="playCircle"
+                      class="course"
+                    >
+                      <ion-avatar slot="start">
+                        <ion-img
+                          :src="
+                            'https://elsaify.elameed.education/elsefy/' +
+                            video.img
+                          "
+                        />
+                      </ion-avatar>
+                      <ion-label>
+                        {{ video.title }}
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ion-accordion>
+              </ion-accordion-group>
             </div>
           </div>
           <div class="error-wrapper" v-else>
@@ -136,14 +162,21 @@ import {
   IonText,
   IonLabel,
   IonItem,
-  IonCard,
   IonAvatar,
   IonImg,
   IonButton,
   IonSpinner,
+  IonAccordion,
+  IonAccordionGroup,
+  IonList,
   //   IonIcon,
 } from "@ionic/vue";
-import { playCircle, arrowForward, chevronForward, laptopOutline, logoYoutube } from "ionicons/icons";
+import {
+  playCircle,
+  arrowForward,
+  laptopOutline,
+  logoYoutube,
+} from "ionicons/icons";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import VideoModal from "../components/VideoModal.vue";
@@ -155,7 +188,22 @@ export default {
     playCircle,
     arrowForward,
     segment: "lessons",
-    chevronForward,
+    sortWords: [
+      "الاول",
+      "الأول",
+      "الثاني",
+      "الثالث",
+      "الرابع",
+      "الخامس",
+      "السادس",
+      "السابع",
+      "الثامن",
+      "التاسع",
+      "العاشر",
+      "الحادي عشر",
+      "الثاني عشر",
+      "الثالث عشر",
+    ],
   }),
   components: {
     IonPage,
@@ -170,16 +218,59 @@ export default {
     IonText,
     IonLabel,
     IonItem,
-    IonCard,
     IonAvatar,
     IonImg,
     IonButton,
     IonSpinner,
+    IonAccordion,
+    IonAccordionGroup,
+    IonList,
   },
   mounted() {
     this.getData();
   },
   methods: {
+    getVideoSections(videos) {
+      let filtered = videos;
+      let sections = [];
+      this.sortWords.forEach((word, index) => {
+        const matches = filtered.filter(
+          (a) =>
+            this.sortWords.findIndex(
+              (searchWord) =>
+                searchWord ===
+                a.title.split(" ").find((b) => this.sortWords.includes(b))
+            ) === index
+        );
+        if (matches.length) {
+          sections.push({
+            title: word,
+            data: matches,
+          });
+          filtered = filtered.filter(
+            (a) =>
+              this.sortWords.findIndex(
+                (searchWord) =>
+                  searchWord ===
+                  a.title.split(" ").find((b) => this.sortWords.includes(b))
+              ) !== index
+          );
+        }
+      });
+      if (filtered.length) {
+        sections.push({
+          title: "أخرى",
+          data: filtered,
+        });
+      }
+      return sections;
+    },
+    sortVideos(a, b) {
+      return (
+        this.sortWords.findIndex((v) => a.title.includes(v)) -
+        this.sortWords.findIndex((v) => b.title.includes(v))
+      );
+    },
     async presentActionSheet(options) {
       const actionSheet = await actionSheetController.create({
         subHeader: "اختار طريقة المشاهدة",
@@ -189,14 +280,14 @@ export default {
             text: "هنا جوا الأبلكيشن",
             icon: laptopOutline,
             handler: () => {
-              this.openVideo(options)
+              this.openVideo(options);
             },
           },
           {
             text: "على أبلكيشن يوتيوب",
             icon: logoYoutube,
             handler: () => {
-              window.open('https://youtu.be/' + options.videoID, '_system');
+              window.open("https://youtu.be/" + options.videoID, "_system");
             },
           },
         ],
@@ -256,7 +347,6 @@ export default {
 
 <style scoped>
 .courses-wrapper {
-  padding: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -273,9 +363,10 @@ export default {
 .course {
   --background: transparent;
 }
-ion-card {
+ion-accordion {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   border-radius: 8px;
+  margin-bottom: 20px;
 }
 </style>
