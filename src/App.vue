@@ -1,20 +1,19 @@
 <template>
-  <ion-app mode="md">
+  <ion-app>
     <transition name="fade">
       <loading-page v-if="loading" />
-      <ion-router-outlet mode="md" v-else />
+      <ion-router-outlet v-else />
     </transition>
   </ion-app>
 </template>
 
 <script>
-import { IonApp, IonRouterOutlet } from "@ionic/vue";
+import { IonApp, IonRouterOutlet, isPlatform } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import { useAuth } from "./stores/auth";
 import LoadingPage from "./views/LoadingPage.vue";
 import { StatusBar, Style } from "@capacitor/status-bar";
-import { isPlatform } from "@ionic/vue";
 
 export default defineComponent({
   name: "App",

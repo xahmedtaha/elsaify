@@ -59,7 +59,13 @@
                 <h3>{{ user.name }}</h3>
                 <p>#{{ user.id }}</p>
               </ion-label>
-              <ion-button fill="clear" strong slot="end" size="small" color="danger" @click="logout"
+              <ion-button
+                fill="clear"
+                strong
+                slot="end"
+                size="small"
+                color="danger"
+                @click="logout"
                 >تسجيل الخروج</ion-button
               >
             </ion-item>
@@ -94,11 +100,13 @@ import {
   IonItem,
   IonToggle,
   IonText,
+  isPlatform,
 } from "@ionic/vue";
 import lottie from "../components/LottiePlayer.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
 import { person, moon } from "ionicons/icons";
 import { useAuth } from "../stores/auth";
+import { StatusBar, Style } from "@capacitor/status-bar";
 
 export default {
   data: () => ({
@@ -110,6 +118,15 @@ export default {
   methods: {
     toggleDarkMode(ev) {
       document.body.classList.toggle("dark", ev.detail.checked);
+      if (isPlatform("capacitor")) {
+        if (ev.detail.checked) {
+          StatusBar.setStyle({ style: Style.Dark });
+          StatusBar.setBackgroundColor({ color: "#121212" });
+        } else {
+          StatusBar.setStyle({ style: Style.Light });
+          StatusBar.setBackgroundColor({ color: "#f4f5f8" });
+        }
+      }
     },
     logout() {
       useAuth().logout();

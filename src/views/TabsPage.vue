@@ -1,20 +1,22 @@
 <template>
   <ion-page>
-    <ion-tabs>
+    <ion-tabs @ionTabsWillChange="changeTabs">
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button tab="home" href="/tabs/home">
-          <ion-icon :icon="home" />
+          <ion-icon
+            :icon="selected === 'home' ? home : homeOutline"
+          />
           <ion-label>الرئيسية</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="contact" href="/tabs/contact">
-          <ion-icon :icon="people" />
+          <ion-icon :icon="selected === 'contact' ? megaphone : megaphoneOutline" />
           <ion-label>التواصل</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="about" href="/tabs/about">
-          <ion-icon :icon="helpCircle" />
+          <ion-icon :icon="selected === 'about' ? helpCircle : helpCircleOutline" />
           <ion-label>عن التطبيق</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -32,7 +34,14 @@ import {
   IonRouterOutlet,
   IonLabel,
 } from "@ionic/vue";
-import { people, helpCircle, home } from "ionicons/icons";
+import {
+  helpCircleOutline,
+  helpCircle,
+  homeOutline,
+  home,
+  megaphoneOutline,
+  megaphone,
+} from "ionicons/icons";
 
 export default {
   components: {
@@ -44,12 +53,19 @@ export default {
     IonRouterOutlet,
     IonLabel,
   },
-  setup() {
-    return {
-      people,
-      helpCircle,
-      home,
-    };
+  methods: {
+    changeTabs(event) {
+      this.selected = event.tab
+    },
   },
+  data: () => ({
+    homeOutline,
+    home,
+    helpCircleOutline,
+    helpCircle,
+    megaphoneOutline,
+    megaphone,
+    selected: null,
+  }),
 };
 </script>

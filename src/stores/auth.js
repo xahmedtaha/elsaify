@@ -26,7 +26,7 @@ export const useAuth = defineStore("auth", {
 
           axios
             .get(
-              "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/login?", {
+              "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/student/login?", {
                 crossdomain: true,
                 params: {
                   phone,
@@ -83,7 +83,7 @@ export const useAuth = defineStore("auth", {
       phone,
       password
     }) {
-      const serial = await Device.getId();
+      const serial = (await Device.getId()).uuid;
       // eslint-disable-next-line no-unused-vars
       return new Promise((resolve, reject) => {
         axios

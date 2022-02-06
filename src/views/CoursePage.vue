@@ -16,7 +16,7 @@
             <ion-label>الواجبات</ion-label>
           </ion-segment-button>
           <ion-segment-button value="exams">
-            <ion-label>الامتحانات</ion-label>
+            <ion-label> الامتحانات </ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
@@ -31,17 +31,14 @@
             <div v-show="segment == 'exams'">
               <ion-accordion-group expand="inset">
                 <ion-accordion
-                  v-for="(section, index) in getVideoSections(
-                    data.filter((a) =>
-                      ['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some((b) =>
-                        a.title.includes(b)
-                      )
-                    )
-                  )"
+                  v-for="(section, index) in getVideoSections(exams)"
                   :key="index"
                 >
                   <ion-item lines="none" slot="header">
                     <ion-label>{{ section.title }}</ion-label>
+                    <ion-badge mode="ios" color="light" slot="end">{{
+                      section.data.length
+                    }}</ion-badge>
                   </ion-item>
 
                   <ion-list slot="content">
@@ -79,18 +76,14 @@
             <div v-show="segment == 'lessons'">
               <ion-accordion-group expand="inset">
                 <ion-accordion
-                  v-for="(section, index) in getVideoSections(
-                    data.filter(
-                      (a) =>
-                        !['امتحان', 'الامتحان', 'أمتحان', 'الأمتحان'].some(
-                          (b) => a.title.includes(b)
-                        )
-                    )
-                  )"
+                  v-for="(section, index) in getVideoSections(homeworks)"
                   :key="index"
                 >
                   <ion-item lines="none" slot="header">
                     <ion-label>{{ section.title }}</ion-label>
+                    <ion-badge mode="ios" color="light" slot="end">{{
+                      section.data.length
+                    }}</ion-badge>
                   </ion-item>
 
                   <ion-list slot="content">
@@ -169,6 +162,7 @@ import {
   IonAccordion,
   IonAccordionGroup,
   IonList,
+  IonBadge,
   //   IonIcon,
 } from "@ionic/vue";
 import {
@@ -180,6 +174,7 @@ import {
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import VideoModal from "../components/VideoModal.vue";
+
 export default {
   data: () => ({
     loading: true,
@@ -193,8 +188,12 @@ export default {
       "الأول",
       "الأولى",
       "الثاني",
+      "الثانى",
+      "التاني",
+      "التانى",
       "الثانية",
       "الثالث",
+      "التالت",
       "الثالثة",
       "الرابع",
       "الرابعة",
@@ -216,6 +215,7 @@ export default {
       "الثانية عشر",
       "الثالث عشر",
       "الثالثة عشر",
+      "شاملة",
     ],
   }),
   components: {
@@ -238,6 +238,7 @@ export default {
     IonAccordion,
     IonAccordionGroup,
     IonList,
+    IonBadge,
   },
   mounted() {
     this.getData();
@@ -353,6 +354,28 @@ export default {
           this.error = true;
           this.loading = false;
         });
+    },
+  },
+  computed: {
+    homeworks() {
+      return this.data.filter(
+        (a) =>
+          ![
+            "امتحان",
+            "الامتحان",
+            "أمتحان",
+            "الأمتحان",
+            "اختبار",
+            "الاختبار",
+          ].some((b) => a.title.includes(b))
+      );
+    },
+    exams() {
+      return this.data.filter((a) =>
+        ["امتحان", "الامتحان", "أمتحان", "الأمتحان", "اختبار", "الاختبار"].some(
+          (b) => a.title.includes(b)
+        )
+      );
     },
   },
 };

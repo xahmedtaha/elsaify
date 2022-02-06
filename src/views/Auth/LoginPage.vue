@@ -14,7 +14,7 @@
                 name="phone"
                 type="number"
                 inputmode="numeric"
-                placeholder="01XXXXXXXXX"
+                placeholder="أدخل رقم التليفون"
                 @keyup.enter="login"
               ></ion-input>
               <ion-icon color="primary" :icon="call" slot="end"></ion-icon>

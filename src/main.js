@@ -1,8 +1,12 @@
-import { createApp } from 'vue'
+import {
+  createApp
+} from 'vue'
 import App from './App.vue'
 import router from './router';
 
-import { IonicVue } from '@ionic/vue';
+import {
+  IonicVue
+} from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -25,18 +29,24 @@ import '@ionic/vue/css/display.css';
 import './theme/variables.css';
 
 // Global Store
-import { createPinia } from 'pinia';
+import {
+  createPinia
+} from 'pinia';
 
 const pinia = createPinia();
-pinia.use(({ store }) => {
+pinia.use(({
+  store
+}) => {
   store.router = router
 });
 
 const app = createApp(App)
-  .use(IonicVue)
+  .use(IonicVue, {
+    mode: 'md',
+  })
   .use(router)
   .use(pinia);
-  
+
 router.isReady().then(() => {
   app.mount('#app');
 });
