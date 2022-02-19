@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { IonApp, IonRouterOutlet, isPlatform, useBackButton } from "@ionic/vue";
+import { IonApp, IonRouterOutlet, isPlatform, useBackButton, useIonRouter } from "@ionic/vue";
 import { defineComponent } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useAuth } from "./stores/auth";
 import LoadingPage from "./views/LoadingPage.vue";
 import { StatusBar, Style } from "@capacitor/status-bar";
@@ -51,7 +51,7 @@ export default defineComponent({
       }
     });
 
-    const router = useRouter();
+    const router = useIonRouter();
     const authStore = useAuth();
     const route = useRoute()
     authStore
