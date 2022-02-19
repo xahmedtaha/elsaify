@@ -1,5 +1,10 @@
-import { createRouter, createWebHistory } from "@ionic/vue-router";
-import { useAuth } from "../stores/auth";
+import {
+  createRouter,
+  createWebHistory
+} from "@ionic/vue-router";
+import {
+  useAuth
+} from "../stores/auth";
 import TabsPage from "../views/TabsPage.vue";
 
 
@@ -21,6 +26,14 @@ const routes = [
     component: () => import("../views/CoursePage.vue"),
   },
   {
+    meta: {
+      requiresAuth: true,
+    },
+    path: "/lecture",
+    props: true,
+    component: () => import("../views/LecturePage.vue"),
+  },
+  {
     path: "/",
     redirect: "/tabs/home",
   },
@@ -30,8 +43,7 @@ const routes = [
     },
     path: "/tabs/",
     component: TabsPage,
-    children: [
-      {
+    children: [{
         path: "",
         redirect: "/tabs/home",
       },

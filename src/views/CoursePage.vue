@@ -23,7 +23,7 @@
     </ion-header>
     <ion-content>
       <main>
-        <transition name="fade">
+        <transition name="fade" mode="out-in">
           <div class="wrapper" v-if="loading">
             <ion-spinner color="primary" name="crescent"></ion-spinner>
           </div>
