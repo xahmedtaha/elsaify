@@ -16,15 +16,6 @@
               دارك موود منعا لعمى الالوان اللي بيجيلنا من الاضائة العالية
             </ion-card-content>
           </ion-card>
-          <!-- <ion-card class="danger">
-            <ion-card-header>
-              <ion-card-title>الحاجات اللي مش شغالة حاليا</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              تقريبا كل حاجه تانية مش شغالة... تطوير الاجزاء التانية محتاج اكواد
-              كيو ار شغالة اجرب عليها و ده مش موجود حاليا
-            </ion-card-content>
-          </ion-card> -->
           <ion-card class="warning">
             <ion-card-header>
               <ion-card-title> تمام ؟ </ion-card-title>

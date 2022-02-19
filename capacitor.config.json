@@ -2,5 +2,11 @@
   "appId": "com.ignitionsoftware.elsaify",
   "appName": "El Saify",
   "webDir": "dist",
-  "bundledWebRuntime": false
+  "bundledWebRuntime": false,
+  "plugins": {
+    "CodePush": {
+      "ANDROID_DEPLOY_KEY": "RU3Mcj2yL1AzTQJMhm1FX12JsGI4N2epvhgmw",
+      "SERVER_URL": "https://codepush.appcenter.ms/"
+    }
+  }
 }

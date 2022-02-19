@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkelsaify"]=self["webpackChunkelsaify"]||[]).push([[674],{5674:function(e,n,s){s.r(n),s.d(n,{DialogWeb:function(){return l}});var a=s(9895);class l extends a.Uw{async alert(e){window.alert(e.message)}async prompt(e){const n=window.prompt(e.message,e.inputText||"");return{value:null!==n?n:"",cancelled:null===n}}async confirm(e){const n=window.confirm(e.message);return{value:n}}}}}]);
+//# sourceMappingURL=674.2ecd3238.js.map

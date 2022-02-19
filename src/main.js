@@ -33,6 +33,11 @@ import {
   createPinia
 } from 'pinia';
 
+import { codePush } from 'capacitor-codepush';
+codePush.sync({
+  onSyncStatusChanged: () => {},
+});
+
 const pinia = createPinia();
 pinia.use(({
   store
