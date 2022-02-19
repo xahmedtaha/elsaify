@@ -8,12 +8,14 @@
 </template>
 
 <script>
-import { IonApp, IonRouterOutlet, isPlatform } from "@ionic/vue";
+import { IonApp, IonRouterOutlet, isPlatform, useBackButton } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuth } from "./stores/auth";
 import LoadingPage from "./views/LoadingPage.vue";
 import { StatusBar, Style } from "@capacitor/status-bar";
+import { Plugins } from '@capacitor/core';
+const { App } = Plugins;
 
 export default defineComponent({
   name: "App",
@@ -69,7 +71,12 @@ export default defineComponent({
           this.loading = false;
         }, 200);
       });
-    console.groupEnd();
+
+    useBackButton(-1, () => {
+      if (!router.canGoBack()) {
+        App.exitApp();
+      }
+    })
   },
   components: {
     IonApp,
