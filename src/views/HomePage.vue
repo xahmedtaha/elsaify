@@ -15,11 +15,11 @@
       <main>
         <transition name="fade" mode="out-in">
           <div class="wrapper" v-if="loading">
-            <ion-img src="/assets/img/amr.png"></ion-img>
+            <ion-img class="logo" src="/assets/img/amr.png"></ion-img>
             <ion-spinner color="primary" name="crescent"></ion-spinner>
           </div>
           <div v-else-if="!error" class="courses-wrapper">
-            <ion-img src="/assets/img/amr.png"></ion-img>
+            <ion-img class="logo" src="/assets/img/amr.png"></ion-img>
             <ion-card>
               <ion-segment :value="segment" @ionChange="segmentChanged($event)">
                 <ion-segment-button value="lectures">
@@ -32,14 +32,52 @@
             </ion-card>
             <div>
               <div v-show="segment === 'lectures'">
-                <course-tile
+                <!-- <course-tile
                   class="course"
                   v-for="course in lectures"
                   :course="course"
                   :key="course.id"
                   dense
                   isLecture
-                ></course-tile>
+                ></course-tile>-->
+                <ion-accordion-group expand="inset">
+                  <ion-accordion
+                    v-for="(lectures, title, index) in groupBy(this.lectures, 'parentName')"
+                    :key="index"
+                  >
+                    <ion-item lines="none" slot="header">
+                      <ion-label>{{ title }}</ion-label>
+                      <ion-badge mode="ios" color="light" slot="end">
+                        {{
+                          lectures.length
+                        }}
+                      </ion-badge>
+                    </ion-item>
+
+                    <ion-list slot="content">
+                      <ion-item
+                        @click="goToLecture(lecture)"
+                        v-for="lecture in lectures"
+                        :key="lecture.id"
+                        button
+                        detail
+                        :detail-icon="chevronBack"
+                        lines="none"
+                        class="lecture"
+                      >
+                        <ion-avatar slot="start">
+                          <ion-img
+                            :src="
+                              'https://elsaify.elameed.education/elsefy/' +
+                              lecture.img
+                            "
+                          />
+                        </ion-avatar>
+                        <ion-label>{{ lecture.title }}</ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </ion-accordion>
+                </ion-accordion-group>
               </div>
               <div v-show="segment === 'homeworks'">
                 <course-tile
@@ -81,9 +119,18 @@ import {
   IonSegmentButton,
   IonLabel,
   IonCard,
+  IonAccordion,
+  IonAccordionGroup,
+  IonItem,
+  IonBadge,
+  IonAvatar,
+  IonList,
 } from "@ionic/vue";
+import { chevronBack } from "ionicons/icons";
 import axios from "axios";
 import CourseTile from "../components/CourseTile.vue";
+
+const groupBy = require('lodash.groupby');
 
 export default {
   mounted() {
@@ -105,12 +152,15 @@ export default {
       "الرابع",
       "الخامس",
     ],
+    chevronBack,
     segment: "lectures",
   }),
   methods: {
+    groupBy,
     segmentChanged(ev) {
       ev.preventDefault();
       this.segment = ev.detail.value;
+
     },
     sortCourses(a, b) {
       return (
@@ -150,6 +200,16 @@ export default {
           this.loading = false;
         });
     },
+    goToLecture(lecture) {
+      this.$router.push({
+        path: "/lecture",
+        query: {
+          id: lecture.id,
+          title: lecture.title,
+          type: lecture.type,
+        },
+      });
+    },
   },
   components: {
     // IonHeader,
@@ -164,8 +224,14 @@ export default {
     IonButton,
     IonSegment,
     IonSegmentButton,
-    IonLabel,
     IonCard,
+    IonAccordion,
+    IonAccordionGroup,
+    IonItem,
+    IonLabel,
+    IonBadge,
+    IonAvatar,
+    IonList,
   },
 };
 </script>
@@ -194,11 +260,20 @@ ion-card {
   align-items: center;
   text-align: center;
 }
-ion-img {
+ion-img.logo {
   margin-right: auto;
   margin-left: auto;
   height: 150px;
   margin-bottom: 30px;
   margin-top: 40px;
+}
+.lecture {
+  --background: transparent;
+}
+ion-accordion {
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 </style>
