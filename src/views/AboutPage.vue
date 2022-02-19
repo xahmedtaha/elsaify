@@ -42,7 +42,7 @@
           <ion-card>
             <ion-item lines="none">
               <ion-icon slot="start" :icon="moon" />
-              <ion-label> دارك مود </ion-label>
+              <ion-label> الوضع الليلي </ion-label>
               <ion-toggle
                 :checked="darkmodeEnabled"
                 ref="themeToggle"

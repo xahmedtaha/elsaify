@@ -13,6 +13,7 @@ export const useAuth = defineStore("auth", {
     return {
       user: null,
       token: null,
+      initialized: false,
     };
   },
 
@@ -76,6 +77,8 @@ export const useAuth = defineStore("auth", {
             }
           }
         );
+
+        this.initialized = true;
 
       });
     },

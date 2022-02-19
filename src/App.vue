@@ -10,7 +10,7 @@
 <script>
 import { IonApp, IonRouterOutlet, isPlatform } from "@ionic/vue";
 import { defineComponent } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useAuth } from "./stores/auth";
 import LoadingPage from "./views/LoadingPage.vue";
 import { StatusBar, Style } from "@capacitor/status-bar";
@@ -51,10 +51,12 @@ export default defineComponent({
 
     const router = useRouter();
     const authStore = useAuth();
+    const route = useRoute()
     authStore
       .init()
       .then(() => {
-        router.replace("/");
+        if (route.matched.some(r => r.meta.requiresAuth && !authStore.user)) router.replace('/login')
+        if (route.matched.some(r => r.meta.requiresGuest && !!authStore.user)) router.replace('/')
         // Wait for the page to finish rendering
         setTimeout(() => {
           this.loading = false;

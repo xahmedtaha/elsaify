@@ -3,10 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button
-            :icon="arrowForward"
-            default-href="/"
-          ></ion-back-button>
+          <ion-back-button :icon="arrowForward" default-href="/"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ this.$route.query.title }}</ion-title>
       </ion-toolbar>
@@ -16,7 +13,7 @@
             <ion-label>الواجبات</ion-label>
           </ion-segment-button>
           <ion-segment-button value="exams">
-            <ion-label> الامتحانات </ion-label>
+            <ion-label>الامتحانات</ion-label>
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
@@ -28,110 +25,104 @@
             <ion-spinner color="primary" name="crescent"></ion-spinner>
           </div>
           <div v-else-if="!error" class="courses-wrapper">
-            <div v-show="segment == 'exams'">
-              <ion-accordion-group expand="inset">
-                <ion-accordion
-                  v-for="(section, index) in getVideoSections(exams)"
-                  :key="index"
-                >
-                  <ion-item lines="none" slot="header">
-                    <ion-label>{{ section.title }}</ion-label>
-                    <ion-badge mode="ios" color="light" slot="end">{{
-                      section.data.length
-                    }}</ion-badge>
-                  </ion-item>
-
-                  <ion-list slot="content">
-                    <ion-item
-                      @click="
-                        presentActionSheet({
-                          title: video.title,
-                          videoID: getVideoID(video.url),
-                        })
-                      "
-                      v-for="video in section.data"
-                      :key="video.id"
-                      button
-                      detail
-                      lines="none"
-                      :detail-icon="playCircle"
-                      class="course"
-                    >
-                      <ion-avatar slot="start">
-                        <ion-img
-                          :src="
-                            'https://elsaify.elameed.education/elsefy/' +
-                            video.img
-                          "
-                        />
-                      </ion-avatar>
-                      <ion-label>
-                        {{ video.title }}
-                      </ion-label>
+            <transition name="fade" mode="out-in">
+              <div v-if="segment == 'exams'">
+                <ion-accordion-group expand="inset">
+                  <ion-accordion v-for="(section, index) in getVideoSections(exams)" :key="index">
+                    <ion-item lines="none" slot="header">
+                      <ion-label>{{ section.title }}</ion-label>
+                      <ion-badge mode="ios" color="light" slot="end">
+                        {{
+                          section.data.length
+                        }}
+                      </ion-badge>
                     </ion-item>
-                  </ion-list>
-                </ion-accordion>
-              </ion-accordion-group>
-            </div>
-            <div v-show="segment == 'lessons'">
-              <ion-accordion-group expand="inset">
-                <ion-accordion
-                  v-for="(section, index) in getVideoSections(homeworks)"
-                  :key="index"
-                >
-                  <ion-item lines="none" slot="header">
-                    <ion-label>{{ section.title }}</ion-label>
-                    <ion-badge mode="ios" color="light" slot="end">{{
-                      section.data.length
-                    }}</ion-badge>
-                  </ion-item>
 
-                  <ion-list slot="content">
-                    <ion-item
-                      @click="
-                        presentActionSheet({
-                          title: video.title,
-                          videoID: getVideoID(video.url),
-                        })
-                      "
-                      v-for="video in section.data"
-                      :key="video.id"
-                      button
-                      detail
-                      lines="none"
-                      :detail-icon="playCircle"
-                      class="course"
-                    >
-                      <ion-avatar slot="start">
-                        <ion-img
-                          :src="
-                            'https://elsaify.elameed.education/elsefy/' +
-                            video.img
-                          "
-                        />
-                      </ion-avatar>
-                      <ion-label>
-                        {{ video.title }}
-                      </ion-label>
+                    <ion-list slot="content">
+                      <ion-item
+                        @click="
+                          presentActionSheet({
+                            title: video.title,
+                            videoID: getVideoID(video.url),
+                          })
+                        "
+                        v-for="video in section.data"
+                        :key="video.id"
+                        button
+                        detail
+                        lines="none"
+                        :detail-icon="playCircle"
+                        class="course"
+                      >
+                        <ion-avatar slot="start">
+                          <ion-img
+                            :src="
+                              'https://elsaify.elameed.education/elsefy/' +
+                              video.img
+                            "
+                          />
+                        </ion-avatar>
+                        <ion-label>{{ video.title }}</ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </ion-accordion>
+                </ion-accordion-group>
+              </div>
+              <div v-else-if="segment == 'lessons'">
+                <ion-accordion-group expand="inset">
+                  <ion-accordion
+                    v-for="(section, index) in getVideoSections(homeworks)"
+                    :key="index"
+                  >
+                    <ion-item lines="none" slot="header">
+                      <ion-label>{{ section.title }}</ion-label>
+                      <ion-badge mode="ios" color="light" slot="end">
+                        {{
+                          section.data.length
+                        }}
+                      </ion-badge>
                     </ion-item>
-                  </ion-list>
-                </ion-accordion>
-              </ion-accordion-group>
-            </div>
+
+                    <ion-list slot="content">
+                      <ion-item
+                        @click="
+                          presentActionSheet({
+                            title: video.title,
+                            videoID: getVideoID(video.url),
+                          })
+                        "
+                        v-for="video in section.data"
+                        :key="video.id"
+                        button
+                        detail
+                        lines="none"
+                        :detail-icon="playCircle"
+                        class="course"
+                      >
+                        <ion-avatar slot="start">
+                          <ion-img
+                            :src="
+                              'https://elsaify.elameed.education/elsefy/' +
+                              video.img
+                            "
+                          />
+                        </ion-avatar>
+                        <ion-label>{{ video.title }}</ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </ion-accordion>
+                </ion-accordion-group>
+              </div>
+            </transition>
           </div>
           <div class="error-wrapper" v-else>
-            <ion-text color="danger"
-              >ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text
-            >
-            <ion-text color="primary"
-              >(اتأكد انك مشترك في الباب في الابلكيشن)</ion-text
-            >
+            <ion-text color="danger">ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text>
+            <ion-text color="primary">(اتأكد انك مشترك في الباب في الابلكيشن)</ion-text>
             <ion-button
               size="small"
               style="margin-top: 15px; --box-shadow: none"
               @click="getData"
-              >حاول تاني</ion-button
-            >
+            >حاول تاني</ion-button>
           </div>
         </transition>
       </main>
@@ -340,8 +331,8 @@ export default {
       axios
         .get(
           "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getCourseFiles?cId=" +
-            this.$route.query.id +
-            "&package=0&type=0&sub=0",
+          this.$route.query.id +
+          "&package=0&type=0&sub=0",
           { crossdomain: true }
         )
         .then((res) => {

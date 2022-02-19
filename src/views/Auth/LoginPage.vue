@@ -112,7 +112,7 @@ export default {
         .login(user)
         .then(async () => {
           loading.value = false;
-          router.push("/tabs/about");
+          router.push("/home");
         })
         .catch(async (err) => {
           loading.value = false;

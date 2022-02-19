@@ -35,17 +35,18 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "/tabs/home",
+    redirect: "/home",
   },
   {
     meta: {
       requiresAuth: true,
     },
-    path: "/tabs/",
+    path: "/",
     component: TabsPage,
-    children: [{
+    children: [
+      {
         path: "",
-        redirect: "/tabs/home",
+        redirect: "/home",
       },
       {
         path: "home",
@@ -68,11 +69,12 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   const auth = useAuth();
-  if (to.meta.requiresAuth && !auth.user) next("/login")
-  else if (to.meta.requiresGuest && !!auth.user) next(from ? false : "/")
-  else next()
+  if (auth.initialized) {
+    if (to.matched.some(route => route.meta.requiresAuth) && !auth.user) return "/login"
+    else if (to.matched.some(route => route.meta.requiresGuest) && !!auth.user) return from ? false : "/"
+  }
 });
 
 export default router;

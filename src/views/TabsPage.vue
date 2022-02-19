@@ -3,19 +3,19 @@
     <ion-tabs @ionTabsWillChange="changeTabs">
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="home" href="/tabs/home">
+        <ion-tab-button tab="home" href="/home">
           <ion-icon
             :icon="selected === 'home' ? home : homeOutline"
           />
           <ion-label>الرئيسية</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="contact" href="/tabs/contact">
+        <ion-tab-button tab="contact" href="/contact">
           <ion-icon :icon="selected === 'contact' ? megaphone : megaphoneOutline" />
           <ion-label>التواصل</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="about" href="/tabs/about">
+        <ion-tab-button tab="about" href="/about">
           <ion-icon :icon="selected === 'about' ? helpCircle : helpCircleOutline" />
           <ion-label>عن التطبيق</ion-label>
         </ion-tab-button>

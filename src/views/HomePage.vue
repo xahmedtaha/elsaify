@@ -30,16 +30,8 @@
                 </ion-segment-button>
               </ion-segment>
             </ion-card>
-            <div>
-              <div v-show="segment === 'lectures'">
-                <!-- <course-tile
-                  class="course"
-                  v-for="course in lectures"
-                  :course="course"
-                  :key="course.id"
-                  dense
-                  isLecture
-                ></course-tile>-->
+            <transition name="fade" mode="out-in">
+              <div v-if="segment === 'lectures'">
                 <ion-accordion-group expand="inset">
                   <ion-accordion
                     v-for="(lectures, title, index) in groupBy(this.lectures, 'parentName')"
@@ -79,7 +71,7 @@
                   </ion-accordion>
                 </ion-accordion-group>
               </div>
-              <div v-show="segment === 'homeworks'">
+              <div v-else-if="segment === 'homeworks'">
                 <course-tile
                   class="course"
                   v-for="course in homeworks.sort(sortCourses)"
@@ -87,7 +79,7 @@
                   :key="course.id"
                 ></course-tile>
               </div>
-            </div>
+            </transition>
           </div>
           <div class="error-wrapper" v-else>
             <ion-img src="/assets/img/amr.png"></ion-img>
