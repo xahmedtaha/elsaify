@@ -43,23 +43,33 @@ export const useAuth = defineStore("auth", {
                 this.token = res.data.data[0].api_token;
                 localStorage.setItem("phone", phone);
                 localStorage.setItem("password", password);
+                localStorage.setItem("user_id", res.data.data[0].id);
                 axios.defaults.headers.common[
                   "Authorization"
                 ] = `Bearer ${res.data.data[0].api_token}`;
                 resolve();
               } else {
-                localStorage.removeItem("phone");
-                localStorage.removeItem("password");
+                this.logout();
                 reject();
               }
             })
             .catch((err) => {
-              localStorage.removeItem("phone");
-              localStorage.removeItem("password");
-              console.log(err);
-              reject();
+              if (err.response) {
+                this.logout();
+                console.log(err);
+                reject({
+                  network: false
+                });
+              } else {
+                console.log(err);
+                reject({
+                  network: true
+                });
+              }
             });
-        } else reject();
+        } else reject({
+          network: false
+        });
 
         axios.interceptors.response.use(
           (response) => {
@@ -107,6 +117,7 @@ export const useAuth = defineStore("auth", {
               this.token = res.data.data[0].api_token;
               localStorage.setItem("phone", phone);
               localStorage.setItem("password", password);
+              localStorage.setItem("user_id", res.data.data[0].id);
               axios.defaults.headers.common[
                 "Authorization"
               ] = `Bearer ${res.data.data[0].api_token}`;
@@ -138,7 +149,7 @@ export const useAuth = defineStore("auth", {
       // Any necessary cleanup
       localStorage.removeItem("phone");
       localStorage.removeItem("password");
-      localStorage.removeItem("token");
+      localStorage.removeItem("user_id");
       this.$reset();
     },
   },

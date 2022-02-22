@@ -5,7 +5,8 @@ import App from './App.vue'
 import router from './router';
 
 import {
-  IonicVue
+  IonicVue,
+  isPlatform
 } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
@@ -33,10 +34,15 @@ import {
   createPinia
 } from 'pinia';
 
-import { codePush } from 'capacitor-codepush';
-codePush.sync({
-  onSyncStatusChanged: () => {},
-});
+import {
+  codePush
+} from 'capacitor-codepush';
+
+if (isPlatform('capacitor')) {
+  codePush.sync({
+    onSyncStatusChanged: () => {},
+  });
+}
 
 const pinia = createPinia();
 pinia.use(({

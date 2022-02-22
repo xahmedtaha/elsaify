@@ -18,29 +18,33 @@
           </ion-card>
           <ion-card class="warning">
             <ion-card-header>
-              <ion-card-title> تمام ؟ </ion-card-title>
+              <ion-card-title>تمام ؟</ion-card-title>
             </ion-card-header>
             <ion-card-content>
               فمؤقتا أي حاجه غير انك تتفرج على فيديوهات الواجب (زي انك تشوف كيو
               ار او تستعمل الكيو ار بتاع الواجب نفسه في بداية الباب الجديد)
               اعملها في الابلكيشن الاصلي بعد كدا ارجع هتلاقي فيديوهاتك هنا شغالة
               عظمة
-              <br />
-              أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و ابعتلي برايفت او
+              <br />أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و ابعتلي برايفت او
               اعملي منشن في الجروب
             </ion-card-content>
           </ion-card>
           <ion-card>
             <ion-item lines="none">
-              <ion-icon slot="start" :icon="moon" />
-              <ion-label> الوضع الليلي </ion-label>
-              <ion-toggle
-                :checked="darkmodeEnabled"
+              <ion-icon slot="start" :icon="contrast" />
+              <ion-label>الثيم</ion-label>
+              <!-- <ion-toggle
+                :checked="darkMode"
                 ref="themeToggle"
                 @ionChange="toggleDarkMode"
                 slot="end"
                 color="primary"
-              ></ion-toggle>
+              ></ion-toggle>-->
+              <ion-select @ionChange="changeTheme" interface="popover" v-model="theme">
+                <ion-select-option value="auto">وضع النظام</ion-select-option>
+                <ion-select-option value="dark">دارك</ion-select-option>
+                <ion-select-option value="light">لايت</ion-select-option>
+              </ion-select>
             </ion-item>
           </ion-card>
           <ion-card>
@@ -57,8 +61,7 @@
                 size="small"
                 color="danger"
                 @click="logout"
-                >تسجيل الخروج</ion-button
-              >
+              >تسجيل الخروج</ion-button>
             </ion-item>
           </ion-card>
           <div class="credits">
@@ -68,8 +71,7 @@
               size="small"
               fill="clear"
               href="https://www.facebook.com/profile.php?id=100053102670919"
-              >Ahmed Taha</ion-button
-            >
+            >أحطه</ion-button>
           </div>
         </div>
       </main>
@@ -89,35 +91,29 @@ import {
   IonIcon,
   IonLabel,
   IonItem,
-  IonToggle,
+  IonSelect,
+  IonSelectOption,
   IonText,
-  isPlatform,
 } from "@ionic/vue";
 import lottie from "../components/LottiePlayer.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
-import { person, moon } from "ionicons/icons";
+import { person, contrast } from "ionicons/icons";
 import { useAuth } from "../stores/auth";
-import { StatusBar, Style } from "@capacitor/status-bar";
 
 export default {
   data: () => ({
     animationOptions: { animationData: alertAnimation },
     person,
     user: useAuth().user,
-    moon,
+    contrast,
+    theme: localStorage.getItem('theme'),
   }),
   methods: {
-    toggleDarkMode(ev) {
-      document.body.classList.toggle("dark", ev.detail.checked);
-      if (isPlatform("capacitor")) {
-        if (ev.detail.checked) {
-          StatusBar.setStyle({ style: Style.Dark });
-          StatusBar.setBackgroundColor({ color: "#121212" });
-        } else {
-          StatusBar.setStyle({ style: Style.Light });
-          StatusBar.setBackgroundColor({ color: "#f4f5f8" });
-        }
-      }
+    changeTheme(ev) {
+      localStorage.setItem("theme", ev.detail.value);
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+      if (ev.detail.value !== 'auto') document.body.classList.toggle("dark", ev.detail.value === 'dark');
+      else document.body.classList.toggle("dark", prefersDark.matches);
     },
     logout() {
       useAuth().logout();
@@ -136,13 +132,9 @@ export default {
     IonLabel,
     IonItem,
     lottie,
-    IonToggle,
+    IonSelect,
+    IonSelectOption,
     IonText,
-  },
-  computed: {
-    darkmodeEnabled() {
-      return document.body.classList.contains("dark");
-    },
   },
 };
 </script>
