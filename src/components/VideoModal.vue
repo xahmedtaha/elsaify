@@ -1,12 +1,12 @@
 <template>
   <ion-header>
     <ion-toolbar>
-      <ion-buttons slot="start">
+      <ion-title>{{ title }}</ion-title>
+      <ion-buttons slot="end">
         <ion-button @click="modalController.dismiss()">
           <ion-icon slot="icon-only" :icon="close" />
         </ion-button>
       </ion-buttons>
-      <ion-title>{{ title }}</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
@@ -31,8 +31,7 @@
         target="_system"
         color="danger"
       >
-        <ion-icon slot="start" :icon="logoYoutube" />
-        اتفرج على اليوتيوب
+        <ion-icon slot="start" :icon="logoYoutube" />اتفرج على اليوتيوب
       </ion-button>
     </div>
   </ion-content>

@@ -52,5 +52,5 @@
     "jest": "^27.3.1",
     "ts-jest": "^27.0.7"
   },
-  "description": "An Ionic project"
+  "description": "A reverse-engineered application"
 }
