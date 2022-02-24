@@ -6,7 +6,6 @@
           <ion-img src="/assets/img/amr.png" class="logo"></ion-img>
           <form @submit.prevent="login">
             <ion-item fill="solid">
-              <ion-icon :icon="callOutline" slot="start"></ion-icon>
               <ion-label position="stacked">رقم التليفون</ion-label>
               <ion-input
                 :disabled="loading"
@@ -20,7 +19,6 @@
               ></ion-input>
             </ion-item>
             <ion-item fill="solid">
-              <ion-icon :icon="lockClosedOutline" slot="start"></ion-icon>
               <ion-label position="stacked">كلمة السر</ion-label>
               <ion-input
                 :disabled="loading"
@@ -35,6 +33,7 @@
                 :icon="showPassword ? eyeOutline : eyeOffOutline"
                 @click="showPassword = !showPassword"
                 slot="end"
+                style="cursor: pointer;"
               ></ion-icon>
             </ion-item>
             <ion-button :disabled="loading" expand="block" type="submit" class="submit-btn">
@@ -73,6 +72,7 @@ import {
   alertController,
   IonNote,
   IonImg,
+  onIonViewWillEnter,
 } from "@ionic/vue";
 import { callOutline, lockClosedOutline, eyeOutline, eyeOffOutline } from "ionicons/icons";
 import { useAuth } from "../../stores/auth";
@@ -97,6 +97,14 @@ export default {
     const password = ref("");
     const loading = ref(false);
     const showPassword = ref(false);
+
+    onIonViewWillEnter(() => {
+      phone.value = "";
+      password.value = "";
+      loading.value = false;
+      showPassword.value = false;
+    });
+
     const login = () => {
       if (loading.value) return;
       loading.value = true;
@@ -155,12 +163,13 @@ ion-title {
   margin-bottom: 32px;
 }
 .submit-btn {
-  margin-top: 24px;
+  margin-top: 38px;
 }
 ion-item {
   margin: 12px 0 12px 0;
   /* --background: none; */
 }
+
 .logo {
   margin-right: auto;
   margin-left: auto;

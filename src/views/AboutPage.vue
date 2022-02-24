@@ -109,6 +109,10 @@ export default {
     contrast,
     theme: localStorage.getItem('theme'),
   }),
+  ionViewWillEnter() {
+    this.user = useAuth().user;
+    this.theme = localStorage.getItem('theme');
+  },
   methods: {
     changeTheme(ev) {
       localStorage.setItem("theme", ev.detail.value);
