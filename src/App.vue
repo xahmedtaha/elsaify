@@ -113,6 +113,10 @@ export default defineComponent({
   --background: var(--ion-color-light);
 } */
 
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;

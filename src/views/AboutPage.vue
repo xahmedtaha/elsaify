@@ -94,6 +94,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonText,
+  alertController,
 } from "@ionic/vue";
 import lottie from "../components/LottiePlayer.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
@@ -115,9 +116,27 @@ export default {
       if (ev.detail.value !== 'auto') document.body.classList.toggle("dark", ev.detail.value === 'dark');
       else document.body.classList.toggle("dark", prefersDark.matches);
     },
-    logout() {
-      useAuth().logout();
-      this.$router.push("/login");
+    async logout() {
+      const alert = await alertController.create({
+        header: "متأكد ؟",
+        message: 'متأكد انك عايز تسجل خروج ؟',
+        buttons: [
+          { text: "الغاء", role: "cancel", cssClass: 'secondary', },
+          {
+            text: "تأكيد",
+            role: "destructive",
+            handler: () => {
+              useAuth().logout();
+              this.$router.push("/login");
+            },
+          }
+        ],
+        mode: "ios",
+      });
+      await alert.present();
+
+      const { role } = await alert.onDidDismiss();
+      console.log("onDidDismiss resolved with role", role);
     },
   },
   components: {

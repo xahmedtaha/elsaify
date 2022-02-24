@@ -72,7 +72,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const auth = useAuth();
   if (auth.initialized) {
-    if (to.matched.some(route => route.meta.requiresAuth) && !auth.user) return "/login"
+    if (to.matched.some(route => route.meta.requiresAuth) && !auth.user) return from.path === "/login" ? false : "/login";
     else if (to.matched.some(route => route.meta.requiresGuest) && !!auth.user) return from ? false : "/"
   }
 });

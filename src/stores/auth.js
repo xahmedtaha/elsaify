@@ -151,6 +151,7 @@ export const useAuth = defineStore("auth", {
       localStorage.removeItem("password");
       localStorage.removeItem("user_id");
       this.$reset();
+      this.initialized = true;
     },
   },
 });

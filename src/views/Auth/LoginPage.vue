@@ -5,7 +5,8 @@
         <div class="wrapper">
           <ion-img src="/assets/img/amr.png" class="logo"></ion-img>
           <form @submit.prevent="login">
-            <ion-item color="light" fill="fill">
+            <ion-item fill="solid">
+              <ion-icon :icon="callOutline" slot="start"></ion-icon>
               <ion-label position="stacked">رقم التليفون</ion-label>
               <ion-input
                 :disabled="loading"
@@ -17,31 +18,26 @@
                 placeholder="أدخل رقم التليفون"
                 @keyup.enter="login"
               ></ion-input>
-              <ion-icon color="primary" :icon="call" slot="end"></ion-icon>
             </ion-item>
-            <ion-item color="light" fill="fill">
+            <ion-item fill="solid">
+              <ion-icon :icon="lockClosedOutline" slot="start"></ion-icon>
               <ion-label position="stacked">كلمة السر</ion-label>
               <ion-input
                 :disabled="loading"
                 required
                 v-model.trim="password"
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 name="password"
                 placeholder="أدخل كلمة السر"
                 @keyup.enter="login"
               ></ion-input>
               <ion-icon
-                color="primary"
-                :icon="lockClosed"
+                :icon="showPassword ? eyeOutline : eyeOffOutline"
+                @click="showPassword = !showPassword"
                 slot="end"
               ></ion-icon>
             </ion-item>
-            <ion-button
-              :disabled="loading"
-              expand="block"
-              type="submit"
-              class="submit-btn"
-            >
+            <ion-button :disabled="loading" expand="block" type="submit" class="submit-btn">
               <span v-show="!loading">تسجيل الدخول</span>
               <ion-spinner name="crescent" v-show="loading"></ion-spinner>
             </ion-button>
@@ -54,8 +50,7 @@
             >
               <ion-note
                 style="text-align: center; margin: 20px auto; max-width: 300px"
-                >لو معندكش أكونت اعمل واحد من الأبلكيشن الأصلي</ion-note
-              >
+              >لو معندكش أكونت اعمل واحد من الأبلكيشن الأصلي</ion-note>
             </div>
           </form>
         </div>
@@ -79,7 +74,7 @@ import {
   IonNote,
   IonImg,
 } from "@ionic/vue";
-import { call, lockClosed } from "ionicons/icons";
+import { callOutline, lockClosedOutline, eyeOutline, eyeOffOutline } from "ionicons/icons";
 import { useAuth } from "../../stores/auth";
 import { ref } from "vue";
 export default {
@@ -101,6 +96,7 @@ export default {
     const phone = ref("");
     const password = ref("");
     const loading = ref(false);
+    const showPassword = ref(false);
     const login = () => {
       if (loading.value) return;
       loading.value = true;
@@ -129,7 +125,7 @@ export default {
           console.log("onDidDismiss resolved with role", role);
         });
     };
-    return { login, call, lockClosed, phone, password, loading };
+    return { login, callOutline, lockClosedOutline, phone, eyeOutline, eyeOffOutline, password, loading, showPassword };
   },
 };
 </script>
@@ -163,13 +159,7 @@ ion-title {
 }
 ion-item {
   margin: 12px 0 12px 0;
-}
-ion-icon {
-  align-self: center;
-}
-ion-item {
-  /* --border-width: 1px; */
-  --border-radius: 4px;
+  /* --background: none; */
 }
 .logo {
   margin-right: auto;
