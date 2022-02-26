@@ -116,13 +116,18 @@
             </transition>
           </div>
           <div class="error-wrapper" v-else>
-            <ion-text color="danger">ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text>
-            <ion-text color="primary">(اتأكد انك مشترك في الباب في الابلكيشن)</ion-text>
-            <ion-button
+            <ion-fab-button
+              color="danger"
               size="small"
-              style="margin-top: 15px; --box-shadow: none"
+              style="margin-top: 20px; --box-shadow: none"
               @click="getData"
-            >حاول تاني</ion-button>
+            >
+              <ion-icon :icon="refresh" />
+            </ion-fab-button>
+            <ion-text color="danger">ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text>
+            <ion-text color="primary">(اتأكد انك مشترك في الباب)</ion-text>
+
+            <ion-button @click="useQR" style="margin-top: 15px" size="small">استعمل ال QR</ion-button>
           </div>
         </transition>
       </main>
@@ -154,17 +159,22 @@ import {
   IonAccordionGroup,
   IonList,
   IonBadge,
-  //   IonIcon,
+  IonFabButton,
+  IonIcon,
+  alertController,
+  loadingController,
 } from "@ionic/vue";
 import {
   playCircle,
   arrowForward,
   laptopOutline,
   logoYoutube,
+  refresh,
 } from "ionicons/icons";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import VideoModal from "../components/VideoModal.vue";
+import { useAuth } from '../stores/auth';
 
 export default {
   data: () => ({
@@ -173,6 +183,7 @@ export default {
     error: false,
     playCircle,
     arrowForward,
+    refresh,
     segment: "lessons",
     sortWords: [
       "الاول",
@@ -230,11 +241,66 @@ export default {
     IonAccordionGroup,
     IonList,
     IonBadge,
+    IonFabButton,
+    IonIcon,
   },
   mounted() {
     this.getData();
   },
   methods: {
+    async useQR() {
+      const alert = await alertController.create({
+        header: "QR",
+        message: 'اعمل اسكان للكيو ار بتليفونك و دخل الكود اللي طلع هنا',
+        inputs: [
+          {
+            name: 'code',
+            placeholder: 'كود الكيو ار',
+            type: 'text',
+          },
+        ],
+        buttons: [
+          { text: "الغاء", role: "cancel", cssClass: 'secondary', },
+          {
+            text: "تأكيد",
+            handler: async (data) => {
+              const loading = await loadingController
+                .create({
+                  message: 'استنى نفعل الكود',
+                });
+              await loading.present();
+              const uninterceptedAxios = axios.create({
+                headers: {
+                  "Authentication": "Bearer " + useAuth().token,
+                },
+              });
+              uninterceptedAxios
+                .get(
+                  "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/courseCode?courseId=" +
+                  this.$route.query.id +
+                  "&code=" + data.code,
+                  { crossdomain: true }
+                )
+                .then((res) => {
+                  if (res.data.code == 200) this.getData();
+                  else alertController.create({ header: "مشكلة !", message: 'الكود مش صح', buttons: ["تمام"], mode: 'ios', }).then(alert => alert.present());
+                  loading.dismiss()
+                })
+                .catch((err) => {
+                  console.error(err);
+                  alertController.create({ header: "مشكلة !", message: 'الكود مش صح', buttons: ["تمام"], mode: 'ios', }).then(alert => alert.present());
+                  loading.dismiss()
+                });
+            },
+          }
+        ],
+        mode: "ios",
+      });
+      await alert.present();
+
+      const { role } = await alert.onDidDismiss();
+      console.log("onDidDismiss resolved with role", role);
+    },
     getVideoSections(videos) {
       let filtered = videos;
       let sections = [];
