@@ -283,12 +283,22 @@ export default {
                 )
                 .then((res) => {
                   if (res.data.code == 200) this.getData();
-                  else alertController.create({ header: "مشكلة !", message: 'الكود مش صح', buttons: ["تمام"], mode: 'ios', }).then(alert => alert.present());
+                  else alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                    alert.present();
+                    alert.onDidDismiss().then(() => {
+                      this.useQR();
+                    })
+                  });
                   loading.dismiss()
                 })
                 .catch((err) => {
                   console.error(err);
-                  alertController.create({ header: "مشكلة !", message: 'الكود مش صح', buttons: ["تمام"], mode: 'ios', }).then(alert => alert.present());
+                  alertController.create({ header: "مشكلة !", message: 'الكود مش صح', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                    alert.present();
+                    alert.onDidDismiss().then(() => {
+                      this.useQR();
+                    })
+                  });
                   loading.dismiss()
                 });
             },
