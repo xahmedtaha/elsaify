@@ -24,7 +24,7 @@
         frameborder="0"
       ></iframe>
     </div>
-    <div style="width: 100%; display: flex;">
+    <!-- <div style="width: 100%; display: flex;">
       <ion-button
         class="ion-margin-top youtube-btn"
         @click="downloadVideo"
@@ -34,7 +34,7 @@
         <ion-icon slot="start" class="ion-margin-right" :icon="cloudDownload" />
         <span>تحميل</span>
       </ion-button>
-    </div>
+    </div> -->
   </ion-content>
 </template>
 
