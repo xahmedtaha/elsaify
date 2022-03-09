@@ -37,7 +37,7 @@ export const useAuth = defineStore("auth", {
               }
             )
             .then((res) => {
-              console.log(res);
+              // console.log(res);
               if (res.data.code == 200) {
                 this.user = res.data.data[0];
                 this.token = res.data.data[0].api_token;
@@ -111,7 +111,7 @@ export const useAuth = defineStore("auth", {
             }
           )
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             if (res.data.code == 200) {
               this.user = res.data.data[0];
               this.token = res.data.data[0].api_token;

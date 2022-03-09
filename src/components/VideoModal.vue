@@ -27,11 +27,12 @@
     <div style="width: 100%; display: flex;">
       <ion-button
         class="ion-margin-top youtube-btn"
-        :href="'https://youtu.be/' + videoID"
-        target="_system"
+        @click="downloadVideo"
         color="danger"
+        :disabled="downloadLoading"
       >
-        <ion-icon slot="start" :icon="logoYoutube" />اتفرج على اليوتيوب
+        <ion-icon slot="start" class="ion-margin-right" :icon="cloudDownload" />
+        <span>تحميل</span>
       </ion-button>
     </div>
   </ion-content>
@@ -48,9 +49,11 @@ import {
   IonIcon,
   IonButton,
   IonButtons,
+  // IonSpinner,
 } from "@ionic/vue";
-import { close, logoYoutube } from "ionicons/icons";
+import { close, cloudDownload } from "ionicons/icons";
 import { useBackButton } from "@ionic/vue";
+import axios from "axios";
 export default {
   components: {
     IonHeader,
@@ -60,13 +63,15 @@ export default {
     IonIcon,
     IonButton,
     IonButtons,
+    // IonSpinner,
   },
   props: ["title", "videoID"],
   data: () => ({
     player: null,
     close,
-    logoYoutube,
+    cloudDownload,
     modalController,
+    downloadLoading: false,
   }),
   mounted() {
     useBackButton(1, async (processNextHandler) => {
@@ -77,6 +82,17 @@ export default {
       }
     });
   },
+  methods: {
+    downloadVideo() {
+      this.downloadLoading = true
+      axios.get('https://elsaify-proxy.ignitionsoftware.workers.dev/?https://maadhav-ytdl.herokuapp.com/video_info.php?url=https://www.youtube.com/watch?v=' + this.videoID).then(res => {
+        this.downloadLoading = false
+        window.open(res.data.links[0], '_system')
+      }).catch(() => {
+        this.downloadLoading = false
+      })
+    }
+  }
 };
 </script>
 

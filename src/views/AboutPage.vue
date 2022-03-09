@@ -8,15 +8,15 @@
           </div>
           <ion-card class="primary">
             <ion-card-header>
-              <ion-card-title>الحاجات اللي شغالة حاليا</ion-card-title>
+              <ion-card-title>الكيو ار !</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              فيديوهات الواجب بتاعت كل باب اللي موجودة عندك في الابلكيشن الاصلي
-              هنا تقدر تشوفها في السايت او يوتيوب بشكل اسرع و اسهل من أي جهاز +
-              دارك موود منعا لعمى الالوان اللي بيجيلنا من الاضائة العالية
+              واجبات الأبواب بتتفتح ب كيو ار بيشتغل على جهاز واحد بس (على الابلكيشن الاصلي)
+              فالبتالي الكيو ار بتاع الواجبات اللي دخلته في الابلكيشن الاصلي مش هيشتغل هنا بس تقدر تجيب اي كيو ار جديد و تدخله هنا سواء محاضرة او واجب و هيشتغل عالابلكيشن و السايت
+              اما المحاضرات المجانية زي بتاعت الباب التاني هتشتغل على كله عادي من غير حاجه
             </ion-card-content>
           </ion-card>
-          <ion-card class="warning">
+          <!-- <ion-card class="warning">
             <ion-card-header>
               <ion-card-title>تمام ؟</ion-card-title>
             </ion-card-header>
@@ -28,7 +28,7 @@
               <br />أي مشاكل تلاقيها دوس عاللينك اللي جواه اسمي و ابعتلي برايفت او
               اعملي منشن في الجروب
             </ion-card-content>
-          </ion-card>
+          </ion-card> -->
           <ion-card>
             <ion-item lines="none">
               <ion-icon slot="start" :icon="contrast" />
@@ -71,7 +71,7 @@
               size="small"
               fill="clear"
               href="https://www.facebook.com/profile.php?id=100053102670919"
-            >أحطه</ion-button>
+            >Ahmed Taha</ion-button>
           </div>
         </div>
       </main>
