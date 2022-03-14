@@ -73,6 +73,7 @@
               </div>
               <div v-else-if="segment === 'homeworks'">
                 <course-tile
+                  dense
                   class="course"
                   v-for="course in homeworks.sort(sortCourses)"
                   :course="course"

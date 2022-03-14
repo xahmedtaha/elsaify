@@ -2,9 +2,17 @@
   <div>
     <ion-card v-if="dense" @click="isLecture ? goToLecture() : goToCourse()" button>
       <ion-item lines="none" detail :detail-icon="chevronBack">
+        <ion-avatar slot="start">
+          <ion-img
+            :src="
+              'https://elsaify.elameed.education/elsefy/' +
+              course.img
+            "
+          />
+        </ion-avatar>
         <ion-label>
-          <h2>{{ course.title }}</h2>
-          <p>{{ course.text }}</p>
+          <h2>{{ course.text }}</h2>
+          <p>{{ course.title }}</p>
         </ion-label>
       </ion-item>
     </ion-card>
@@ -29,6 +37,8 @@ import {
   IonCardSubtitle,
   IonLabel,
   IonItem,
+  IonImg,
+  IonAvatar,
 } from "@ionic/vue";
 import { closeCircle, chevronBack } from "ionicons/icons";
 export default {
@@ -40,6 +50,8 @@ export default {
     IonCardSubtitle,
     IonLabel,
     IonItem,
+    IonImg,
+    IonAvatar,
   },
   props: {
     course: Object,
