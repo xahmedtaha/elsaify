@@ -45,14 +45,14 @@
                         >
                             <ion-icon :icon="refresh" />
                         </ion-fab-button>
-                        <ion-text color="danger">ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text>
-                        <ion-text color="primary">(اتأكد انك مشترك في المحاضرة)</ion-text>
+                        <ion-text color="danger">ممكن تكون فاصل نت أو السيرفر مش متاح</ion-text>
+                        <!-- <ion-text color="primary">(اتأكد انك مشترك في المحاضرة)</ion-text>
 
                         <ion-button
                             @click="useQR"
                             style="margin-top: 15px"
                             size="small"
-                        >استعمل ال QR</ion-button>
+                        >استعمل ال QR</ion-button> -->
                     </div>
                 </transition>
             </main>
@@ -78,7 +78,7 @@ import {
     IonSpinner,
     IonCard,
     IonText,
-    IonButton,
+    // IonButton,
     alertController,
     loadingController,
     IonIcon,
@@ -119,7 +119,7 @@ export default {
         IonImg,
         IonSpinner,
         IonCard,
-        IonButton,
+        // IonButton,
         IonText,
         IonFabButton,
         IonIcon,

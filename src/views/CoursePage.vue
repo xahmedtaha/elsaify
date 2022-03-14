@@ -124,10 +124,10 @@
             >
               <ion-icon :icon="refresh" />
             </ion-fab-button>
-            <ion-text color="danger">ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text>
-            <ion-text color="primary">(اتأكد انك مشترك في الباب)</ion-text>
+            <ion-text color="danger">ممكن تكون فاصل نت أو السيرفر مش متاح</ion-text>
+            <!-- <ion-text color="primary">(اتأكد انك مشترك في الباب)</ion-text>
 
-            <ion-button @click="useQR" style="margin-top: 15px" size="small">استعمل ال QR</ion-button>
+            <ion-button @click="useQR" style="margin-top: 15px" size="small">استعمل ال QR</ion-button> -->
           </div>
         </transition>
       </main>
@@ -153,7 +153,7 @@ import {
   IonItem,
   IonAvatar,
   IonImg,
-  IonButton,
+  // IonButton,
   IonSpinner,
   IonAccordion,
   IonAccordionGroup,
@@ -235,7 +235,7 @@ export default {
     IonItem,
     IonAvatar,
     IonImg,
-    IonButton,
+    // IonButton,
     IonSpinner,
     IonAccordion,
     IonAccordionGroup,

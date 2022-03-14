@@ -48,12 +48,12 @@
 
                     <ion-list slot="content">
                       <ion-item
-                        @click="goToLecture(lecture)"
+                        @click="isLectureAvailable(lecture) ? goToLecture(lecture) : useQR(lecture)"
                         v-for="lecture in lectures"
                         :key="lecture.id"
                         button
                         detail
-                        :detail-icon="chevronBack"
+                        :detail-icon="isLectureAvailable(lecture) ? chevronBack : lockClosed"
                         lines="none"
                         class="lecture"
                       >
@@ -100,9 +100,6 @@
 <script>
 import {
   IonPage,
-  // IonHeader,
-  // IonToolbar,
-  // IonTitle,
   IonSpinner,
   IonImg,
   IonText,
@@ -118,10 +115,13 @@ import {
   IonBadge,
   IonAvatar,
   IonList,
+  alertController,
+  loadingController,
 } from "@ionic/vue";
-import { chevronBack } from "ionicons/icons";
+import { chevronBack, lockClosed } from "ionicons/icons";
 import axios from "axios";
 import CourseTile from "../components/CourseTile.vue";
+import { useAuth } from "../stores/auth";
 
 const groupBy = require('lodash.groupby');
 
@@ -145,6 +145,7 @@ export default {
       "الرابع",
       "الخامس",
     ],
+    lockClosed,
     chevronBack,
     segment: "lectures",
   }),
@@ -160,6 +161,72 @@ export default {
         this.sortWords.findIndex((v) => a.text.includes(v)) -
         this.sortWords.findIndex((v) => b.text.includes(v))
       );
+    },
+    isLectureAvailable(lecture) {
+      return lecture.countC > 0 || lecture.money == "0.00";
+    },
+    async useQR(lecture) {
+      const alert = await alertController.create({
+        header: "QR",
+        message: 'اعمل اسكان للكيو ار بتليفونك و دخل الكود اللي طلع هنا',
+        inputs: [
+          {
+            name: 'code',
+            placeholder: 'كود الكيو ار',
+            type: 'text',
+          },
+        ],
+        buttons: [
+          { text: "الغاء", role: "cancel", cssClass: 'secondary', },
+          {
+            text: "تأكيد",
+            handler: async (data) => {
+              const loading = await loadingController
+                .create({
+                  message: 'استنى نفعل الكود',
+                });
+              await loading.present();
+              const uninterceptedAxios = axios.create({
+                headers: {
+                  "Authentication": "Bearer " + useAuth().token,
+                },
+              });
+              uninterceptedAxios
+                .get(
+                  "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/courseCode?courseId=" +
+                  lecture.id +
+                  "&code=" + data.code,
+                  { crossdomain: true }
+                )
+                .then((res) => {
+                  if (res.data.code == 200) this.goToLecture(lecture);
+                  else alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                    alert.present();
+                    alert.onDidDismiss().then(() => {
+                      this.useQR(lecture);
+                    })
+                  });
+                  loading.dismiss()
+                })
+                .catch((err) => {
+                  console.error(err);
+                  alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                    alert.present();
+                    alert.onDidDismiss().then(() => {
+                      this.useQR(lecture);
+                    })
+                  });
+                  loading.dismiss()
+                });
+            },
+          }
+        ],
+        mode: "ios",
+      });
+      await alert.present();
+
+      const { role } = await alert.onDidDismiss();
+      console.log("onDidDismiss resolved with role", role);
     },
     getCourses() {
       this.error = false;

@@ -1,7 +1,11 @@
 <template>
   <div>
-    <ion-card v-if="dense" @click="isLecture ? goToLecture() : goToCourse()" button>
-      <ion-item lines="none" detail :detail-icon="chevronBack">
+    <ion-card
+      v-if="dense"
+      @click="isAvailable ? goToCourse() : useQR()"
+      button
+    >
+      <ion-item lines="none" detail :detail-icon="isAvailable ? chevronBack : lockClosed">
         <ion-avatar slot="start">
           <ion-img
             :src="
@@ -39,8 +43,12 @@ import {
   IonItem,
   IonImg,
   IonAvatar,
+  alertController,
+  loadingController,
 } from "@ionic/vue";
-import { closeCircle, chevronBack } from "ionicons/icons";
+import axios from "axios";
+import { closeCircle, chevronBack, lockClosed } from "ionicons/icons";
+import { useAuth } from "../stores/auth";
 export default {
   components: {
     // IonIcon,
@@ -61,12 +69,17 @@ export default {
   data: () => ({
     closeCircle,
     chevronBack,
+    lockClosed,
   }),
+  computed: {
+    isAvailable() {
+      return this.course.countC > 0 || this.course.money == "0.00";
+    }
+  },
   methods: {
     goToCourse() {
-      console.log(this.course);
       this.$router.push({
-        path: "/course",
+        path: this.isLecture ? "/lecture" : "/course",
         query: {
           id: this.course.id,
           title: this.course.title,
@@ -74,17 +87,69 @@ export default {
         },
       });
     },
-    goToLecture() {
-      console.log(this.course);
-      this.$router.push({
-        path: "/lecture",
-        query: {
-          id: this.course.id,
-          title: this.course.title,
-          type: this.course.type,
-        },
+    async useQR() {
+      const alert = await alertController.create({
+        header: "QR",
+        message: 'اعمل اسكان للكيو ار بتليفونك و دخل الكود اللي طلع هنا',
+        inputs: [
+          {
+            name: 'code',
+            placeholder: 'كود الكيو ار',
+            type: 'text',
+          },
+        ],
+        buttons: [
+          { text: "الغاء", role: "cancel", cssClass: 'secondary', },
+          {
+            text: "تأكيد",
+            handler: async (data) => {
+              const loading = await loadingController
+                .create({
+                  message: 'استنى نفعل الكود',
+                });
+              await loading.present();
+              const uninterceptedAxios = axios.create({
+                headers: {
+                  "Authentication": "Bearer " + useAuth().token,
+                },
+              });
+              uninterceptedAxios
+                .get(
+                  "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/courseCode?courseId=" +
+                  this.course.id +
+                  "&code=" + data.code,
+                  { crossdomain: true }
+                )
+                .then((res) => {
+                  if (res.data.code == 200) this.goToCourse();
+                  else alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                    alert.present();
+                    alert.onDidDismiss().then(() => {
+                      this.useQR();
+                    })
+                  });
+                  loading.dismiss()
+                })
+                .catch((err) => {
+                  console.error(err);
+                  alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                    alert.present();
+                    alert.onDidDismiss().then(() => {
+                      this.useQR();
+                    })
+                  });
+                  loading.dismiss()
+                });
+            },
+          }
+        ],
+        mode: "ios",
       });
-    },
+      await alert.present();
+
+      const { role } = await alert.onDidDismiss();
+      console.log("onDidDismiss resolved with role", role);
+    }
   },
 };
 </script>
