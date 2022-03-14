@@ -293,7 +293,7 @@ export default {
                 })
                 .catch((err) => {
                   console.error(err);
-                  alertController.create({ header: "مشكلة !", message: 'الكود مش صح', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                  alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
                     alert.present();
                     alert.onDidDismiss().then(() => {
                       this.useQR();
