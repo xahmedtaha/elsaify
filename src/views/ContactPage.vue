@@ -118,9 +118,9 @@
               <p>أي استفسارات في المادة و الاسئلة العلمية</p>
             </ion-label>
           </ion-item>
-          <p style="text-align: center; color: #6b7280; font-size: 14px">
+          <!-- <p style="text-align: center; color: #6b7280; font-size: 14px">
             ان شاء الله اللينكات متتغيرش
-          </p>
+          </p> -->
         </div>
       </main>
     </ion-content>
