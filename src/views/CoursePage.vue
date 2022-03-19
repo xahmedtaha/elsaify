@@ -76,7 +76,7 @@
                   >
                     <ion-item lines="none" slot="header">
                       <ion-label>{{ section.title }}</ion-label>
-                      <ion-badge mode="ios" color="light" slot="end">
+                      <ion-badge class="number-badge" mode="ios" color="light" slot="end">
                         {{
                           section.data.length
                         }}

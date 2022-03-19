@@ -19,8 +19,7 @@
           '?showinfo=0&rel=0&frameborder=0&allowfullscreen&modestbranding=1'
         "
         allowfullscreen
-        allowtransparency
-        allow="autoplay"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         frameborder="0"
       ></iframe>
     </div>

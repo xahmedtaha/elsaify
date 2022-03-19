@@ -112,7 +112,9 @@ export default defineComponent({
 /* body:not(.dark) ion-content {
   --background: var(--ion-color-light);
 } */
-
+.number-badge {
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
