@@ -167,7 +167,7 @@ export default {
     },
     async useQR(lecture) {
       const alert = await alertController.create({
-        header: "QR",
+        header: lecture.title,
         message: 'اعمل اسكان للكيو ار بتليفونك و دخل الكود اللي طلع هنا',
         inputs: [
           {
@@ -323,7 +323,7 @@ ion-card {
 ion-img.logo {
   margin-right: auto;
   margin-left: auto;
-  height: 150px;
+  height: 135px;
   margin-bottom: 30px;
   margin-top: 40px;
 }

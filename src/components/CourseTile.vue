@@ -89,7 +89,7 @@ export default {
     },
     async useQR() {
       const alert = await alertController.create({
-        header: "QR",
+        header: this.course.title,
         message: 'اعمل اسكان للكيو ار بتليفونك و دخل الكود اللي طلع هنا',
         inputs: [
           {
