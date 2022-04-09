@@ -19,10 +19,7 @@
                             v-for="video in data"
                             :key="video.id"
                             @click="
-                                presentActionSheet({
-                                    title: video.title,
-                                    videoID: getVideoID(video.url),
-                                })
+                                openLecture(video)
                             "
                             button
                         >
@@ -52,7 +49,7 @@
                             @click="useQR"
                             style="margin-top: 15px"
                             size="small"
-                        >استعمل ال QR</ion-button> -->
+                        >استعمل ال QR</ion-button>-->
                     </div>
                 </transition>
             </main>
@@ -126,6 +123,16 @@ export default {
     },
     mounted() {
         this.getData();
+    },
+    watch: {
+        '$route.params': {
+            handler: function (route) {
+                console.log(route)
+                this.getData()
+            },
+            deep: true,
+            immediate: true
+        }
     },
     methods: {
         async useQR() {
@@ -214,6 +221,24 @@ export default {
             });
             await actionSheet.present();
         },
+        openLecture(lecture) {
+            if (this.$route.query.package) {
+                this.$router.push({
+                    path: "/lecture",
+                    query: {
+                        id: lecture.id,
+                        title: lecture.title,
+                        type: lecture.type,
+                    },
+                });
+
+            } else {
+                this.presentActionSheet({
+                    title: lecture.title,
+                    videoID: this.getVideoID(lecture.url),
+                })
+            }
+        },
         getVideoID(url) {
             const decrypted = CryptoJS.AES.decrypt(
                 url,
@@ -245,9 +270,13 @@ export default {
             this.loading = true;
             axios
                 .get(
-                    "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getCourseFiles?cId=" +
-                    this.$route.query.id +
-                    "&package=0&type=0&sub=0",
+                    this.$route.query.package ?
+                        "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getPackageCourses?package=" +
+                        this.$route.query.id :
+
+                        "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getCourseFiles?cId=" +
+                        this.$route.query.id +
+                        "&package=0&type=0&sub=0",
                     { crossdomain: true }
                 )
                 .then((res) => {

@@ -3,11 +3,14 @@
     <ion-tabs @ionTabsWillChange="changeTabs">
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="home" href="/home">
-          <ion-icon
-            :icon="selected === 'home' ? home : homeOutline"
-          />
-          <ion-label>الرئيسية</ion-label>
+        <ion-tab-button tab="lectures" href="/lectures">
+          <ion-icon :icon="selected === 'lectures' ? videocam : videocamOutline" />
+          <ion-label>المحاضرات</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="homeworks" href="/homeworks" exact>
+          <ion-icon :icon="selected === 'homeworks' ? create : createOutline" />
+          <ion-label>الواجبات</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="contact" href="/contact">
@@ -37,10 +40,12 @@ import {
 import {
   helpCircleOutline,
   helpCircle,
-  homeOutline,
-  home,
+  create,
+  createOutline,
   megaphoneOutline,
   megaphone,
+  videocam,
+  videocamOutline,
 } from "ionicons/icons";
 
 export default {
@@ -59,8 +64,10 @@ export default {
     },
   },
   data: () => ({
-    homeOutline,
-    home,
+    videocam,
+    videocamOutline,
+    create,
+    createOutline,
     helpCircleOutline,
     helpCircle,
     megaphoneOutline,

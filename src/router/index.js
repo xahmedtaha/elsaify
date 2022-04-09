@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "/home",
+    redirect: "/lectures",
   },
   {
     meta: {
@@ -46,11 +46,15 @@ const routes = [
     children: [
       {
         path: "",
-        redirect: "/home",
+        redirect: "/lectures",
       },
       {
-        path: "home",
+        path: "lectures",
         component: () => import("@/views/HomePage.vue"),
+      },
+      {
+        path: "homeworks",
+        component: () => import("@/views/HomeworksPage.vue"),
       },
       {
         path: "contact",

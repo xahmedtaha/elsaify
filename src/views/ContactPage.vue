@@ -13,10 +13,10 @@
       </ion-header> -->
       <main>
         <div class="wrapper ion-padding">
-          <div>
+          <div class="ion-margin-bottom">
             <lottie
               :options="animationOptions"
-              :height="250"
+              :height="150"
             />
           </div>
           <ion-item

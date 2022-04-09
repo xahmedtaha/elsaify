@@ -15,8 +15,8 @@
           />
         </ion-avatar>
         <ion-label>
-          <h2>{{ course.text }}</h2>
-          <p>{{ course.title }}</p>
+          <h2>{{ invert ? course.title : course.text }}</h2>
+          <p>{{ invert ? course.text : course.title }}</p>
         </ion-label>
       </ion-item>
     </ion-card>
@@ -64,7 +64,9 @@ export default {
   props: {
     course: Object,
     dense: Boolean,
+    invert: Boolean,
     isLecture: Boolean,
+    package: Boolean,
   },
   data: () => ({
     closeCircle,
@@ -84,6 +86,7 @@ export default {
           id: this.course.id,
           title: this.course.title,
           type: this.course.type,
+          package: this.package,
         },
       });
     },

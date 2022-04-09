@@ -73,14 +73,14 @@ export const useAuth = defineStore("auth", {
 
         axios.interceptors.response.use(
           (response) => {
-            if ((response.data.code == 401 || response.data.code == 403) && !!this.token) {
+            if ((response.data.code == 403) && !!this.token) {
               window.location.reload();
             } else {
               return response;
             }
           },
           (error) => {
-            if ((error.response.status == 401 || error.response.status == 403) && !!this.token) {
+            if ((error.response.status == 403) && !!this.token) {
               window.location.reload();
             } else {
               return Promise.reject(error);

@@ -23,10 +23,10 @@
             <ion-card>
               <ion-segment :value="segment" @ionChange="segmentChanged($event)">
                 <ion-segment-button value="lectures">
-                  <ion-label>المحاضرات</ion-label>
+                  <ion-label>السناتر</ion-label>
                 </ion-segment-button>
                 <ion-segment-button value="homeworks">
-                  <ion-label>الواجبات</ion-label>
+                  <ion-label>الأونلاين</ion-label>
                 </ion-segment-button>
               </ion-segment>
             </ion-card>
@@ -73,7 +73,10 @@
               </div>
               <div v-else-if="segment === 'homeworks'">
                 <course-tile
+                  is-lecture
                   dense
+                  invert
+                  package
                   class="course"
                   v-for="course in homeworks.sort(sortCourses)"
                   :course="course"
@@ -233,7 +236,7 @@ export default {
       this.loading = true;
       Promise.all([
         axios.get(
-          "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getSubCourses?package=0&sub=0&type=5",
+          "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getSubCourses?package=1&sub=0&type=0",
           { crossdomain: true }
         ),
         axios.get(
