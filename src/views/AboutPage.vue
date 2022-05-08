@@ -64,6 +64,22 @@
               >تسجيل الخروج</ion-button>
             </ion-item>
           </ion-card>
+          <ion-card>
+            <ion-item lines="none">
+              <ion-icon slot="start" :icon="wallet" />
+              <ion-label>
+                <h3>محفظتك</h3>
+                <p>{{ user.money }}</p>
+              </ion-label>
+              <ion-button
+                fill="clear"
+                strong
+                slot="end"
+                size="small"
+                @click="recharge"
+              >شحن المحفظة</ion-button>
+            </ion-item>
+          </ion-card>
           <div class="credits">
             <ion-text style="font-size: 14px">Built By</ion-text>
             <ion-button
@@ -95,11 +111,13 @@ import {
   IonSelectOption,
   IonText,
   alertController,
+loadingController,
 } from "@ionic/vue";
 import lottie from "../components/LottiePlayer.vue";
 import * as alertAnimation from "../../public/assets/animations/alert.json";
-import { person, contrast } from "ionicons/icons";
+import { person, contrast, wallet } from "ionicons/icons";
 import { useAuth } from "../stores/auth";
+import axios from "axios";
 
 export default {
   data: () => ({
@@ -107,6 +125,7 @@ export default {
     person,
     user: useAuth().user,
     contrast,
+    wallet,
     theme: localStorage.getItem('theme'),
   }),
   ionViewWillEnter() {
@@ -141,6 +160,67 @@ export default {
 
       const { role } = await alert.onDidDismiss();
       console.log("onDidDismiss resolved with role", role);
+    },
+    async recharge() {
+      const alert = await alertController.create({
+                header: 'شحن المحفظة',
+                message: 'اعمل اسكان للكيو ار بتليفونك و دخل الكود اللي طلع هنا',
+                inputs: [
+                    {
+                        name: 'code',
+                        placeholder: 'كود الكيو ار',
+                        type: 'text',
+                    },
+                ],
+                buttons: [
+                    { text: "الغاء", role: "cancel", cssClass: 'secondary', },
+                    {
+                        text: "تأكيد",
+                        handler: async (data) => {
+                            const loading = await loadingController
+                                .create({
+                                    message: 'استنى نفعل الكود',
+                                });
+                            await loading.present();
+                            const uninterceptedAxios = axios.create({
+                                headers: {
+                                    "Authentication": "Bearer " + useAuth().token,
+                                },
+                            });
+                            uninterceptedAxios
+                                .get(
+                                    "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/convertCodeToWallet?code=" + data.code,
+                                    { crossdomain: true }
+                                )
+                                .then((res) => {
+                                    if (res.data.code == 200) alertController.dismiss();
+                                    else alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                                        alert.present();
+                                        alert.onDidDismiss().then(() => {
+                                            this.recharge();
+                                        })
+                                    });
+                                    loading.dismiss()
+                                })
+                                .catch((err) => {
+                                    console.error(err);
+                                    alertController.create({ header: "مشكلة !", message: 'الكود مش مظبوط', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                                        alert.present();
+                                        alert.onDidDismiss().then(() => {
+                                            this.recharge();
+                                        })
+                                    });
+                                    loading.dismiss()
+                                });
+                        },
+                    }
+                ],
+                mode: "ios",
+            });
+            await alert.present();
+
+            const { role } = await alert.onDidDismiss();
+            console.log("onDidDismiss resolved with role", role);
     },
   },
   components: {

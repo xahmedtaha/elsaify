@@ -49,6 +49,10 @@ const routes = [
         redirect: "/lectures",
       },
       {
+        path: "/home",
+        redirect: "/lectures",
+      },
+      {
         path: "lectures",
         component: () => import("@/views/HomePage.vue"),
       },

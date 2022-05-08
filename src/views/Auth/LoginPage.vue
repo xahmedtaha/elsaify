@@ -116,7 +116,7 @@ export default {
         .login(user)
         .then(async () => {
           loading.value = false;
-          router.push("/home");
+          router.push("/lectures");
         })
         .catch(async (err) => {
           loading.value = false;
