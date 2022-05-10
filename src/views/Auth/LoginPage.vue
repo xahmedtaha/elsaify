@@ -36,6 +36,17 @@
                 style="cursor: pointer;"
               ></ion-icon>
             </ion-item>
+            <ion-item fill="solid">
+              <ion-label position="stacked">كود تعريف الجهاز</ion-label>
+              <ion-input
+                :disabled="loading"
+                v-model.trim="serial"
+                type="text"
+                name="password"
+                placeholder="سيبها فاضية لو متعرفش بتعمل ايه"
+                @keyup.enter="login"
+              ></ion-input>
+            </ion-item>
             <ion-button :disabled="loading" expand="block" type="submit" class="submit-btn">
               <span v-show="!loading">تسجيل الدخول</span>
               <ion-spinner name="crescent" v-show="loading"></ion-spinner>
@@ -95,12 +106,14 @@ export default {
     const auth = useAuth();
     const phone = ref("");
     const password = ref("");
+    const serial = ref("");
     const loading = ref(false);
     const showPassword = ref(false);
 
     onIonViewWillEnter(() => {
       phone.value = "";
       password.value = "";
+      serial.value = "";
       loading.value = false;
       showPassword.value = false;
     });
@@ -111,6 +124,7 @@ export default {
       let user = {
         phone: phone.value,
         password: password.value,
+        serial: serial.value ? serial.value : null,
       };
       auth
         .login(user)
@@ -133,7 +147,7 @@ export default {
           console.log("onDidDismiss resolved with role", role);
         });
     };
-    return { login, callOutline, lockClosedOutline, phone, eyeOutline, eyeOffOutline, password, loading, showPassword };
+    return { login, callOutline, lockClosedOutline, phone, eyeOutline, eyeOffOutline, password, serial, loading, showPassword };
   },
 };
 </script>

@@ -229,6 +229,7 @@ export default {
                         id: lecture.id,
                         title: lecture.title,
                         type: lecture.type,
+                        packageId: this.$route.query.id,
                     },
                 });
 
@@ -276,7 +277,7 @@ export default {
 
                         "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/getCourseFiles?cId=" +
                         this.$route.query.id +
-                        "&package=0&type=0&sub=0",
+                        "&package=" + (this.$route.query.packageId ?? "0") + "&type=0&sub=0",
                     { crossdomain: true }
                 )
                 .then((res) => {

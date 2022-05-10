@@ -24,6 +24,7 @@ export const useAuth = defineStore("auth", {
         if (localStorage.getItem("phone")) {
           const phone = localStorage.getItem("phone");
           const password = localStorage.getItem("password");
+          const serial = localStorage.getItem("serial");
 
           axios
             .get(
@@ -32,7 +33,7 @@ export const useAuth = defineStore("auth", {
                 params: {
                   phone,
                   password,
-                  serial: fakeSerial,
+                  serial: serial ? serial : fakeSerial,
                 },
               }
             )
@@ -44,6 +45,7 @@ export const useAuth = defineStore("auth", {
                 localStorage.setItem("phone", phone);
                 localStorage.setItem("password", password);
                 localStorage.setItem("user_id", res.data.data[0].id);
+                localStorage.setItem("serial", res.data.data[0].serial);
                 axios.defaults.headers.common[
                   "Authorization"
                 ] = `Bearer ${res.data.data[0].api_token}`;
@@ -94,7 +96,8 @@ export const useAuth = defineStore("auth", {
     },
     async login({
       phone,
-      password
+      password,
+      serial,
     }) {
       // const serial = (await Device.getId()).uuid;
       // eslint-disable-next-line no-unused-vars
@@ -106,7 +109,7 @@ export const useAuth = defineStore("auth", {
               params: {
                 phone,
                 password,
-                serial: fakeSerial,
+                serial: serial ? serial : fakeSerial,
               },
             }
           )
@@ -118,6 +121,7 @@ export const useAuth = defineStore("auth", {
               localStorage.setItem("phone", phone);
               localStorage.setItem("password", password);
               localStorage.setItem("user_id", res.data.data[0].id);
+              localStorage.setItem("serial", res.data.data[0].serial);
               axios.defaults.headers.common[
                 "Authorization"
               ] = `Bearer ${res.data.data[0].api_token}`;
