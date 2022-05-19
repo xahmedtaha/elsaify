@@ -48,7 +48,7 @@
 
                     <ion-list slot="content">
                       <ion-item
-                        @click="isLectureAvailable(lecture) ? goToLecture(lecture) : useQR(lecture)"
+                        @click="isLectureAvailable(lecture) ? goToLecture(lecture) : showPurchaseActions(lecture)"
                         v-for="lecture in lectures"
                         :key="lecture.id"
                         button
@@ -120,8 +120,9 @@ import {
   IonList,
   alertController,
   loadingController,
+actionSheetController,
 } from "@ionic/vue";
-import { chevronBack, lockClosed } from "ionicons/icons";
+import { chevronBack, lockClosed, qrCode, wallet } from "ionicons/icons";
 import axios from "axios";
 import CourseTile from "../components/CourseTile.vue";
 import { useAuth } from "../stores/auth";
@@ -168,6 +169,68 @@ export default {
     isLectureAvailable(lecture) {
       return lecture.countC > 0 || lecture.money == "0.00";
     },
+
+
+
+
+
+    async showPurchaseActions(lecture) {
+      const actionSheet = await actionSheetController.create({
+        subHeader: "اختار طريقة التفعيل",
+        header: "تفعيل: " + lecture.title,
+        buttons: [
+          {
+            text: "رصيد المحفظة",
+            icon: wallet,
+            handler: () => {
+              this.useWallet(lecture)
+            },
+          },
+          {
+            text: "الكيو ار",
+            icon: qrCode,
+            handler: () => {
+              this.useQR(lecture)
+            },
+          },
+        ],
+      });
+      await actionSheet.present();
+    },
+    async useWallet(lecture) {
+      const loading = await loadingController
+        .create({
+          message: 'استنى نفعل من المحفظة',
+        });
+      await loading.present();
+      const uninterceptedAxios = axios.create({
+        headers: {
+          "Authentication": "Bearer " + useAuth().token,
+        },
+      });
+      uninterceptedAxios
+        .get(
+          "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/courseWallet?courseId=" +
+          lecture.id,
+          { crossdomain: true }
+        )
+        .then((res) => {
+          if (res.data.code == 200)this.goToLecture(lecture);
+          else alertController.create({ header: "مشكلة !", message: 'رصيد محفظتك مش كفاية', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+            alert.present();
+          });
+          loading.dismiss()
+        })
+        .catch((err) => {
+          console.error(err);
+          alertController.create({ header: "مشكلة !", message: 'رصيد محفظتك مش كفاية', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+            alert.present();
+          });
+          loading.dismiss()
+        });
+    },
+
+
     async useQR(lecture) {
       const alert = await alertController.create({
         header: lecture.title,

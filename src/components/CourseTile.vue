@@ -1,18 +1,12 @@
 <template>
   <div>
-    <ion-card
-      v-if="dense"
-      @click="isAvailable ? goToCourse() : useQR()"
-      button
-    >
+    <ion-card v-if="dense" @click="isAvailable ? goToCourse() : showPurchaseActions()" button>
       <ion-item lines="none" detail :detail-icon="isAvailable ? chevronBack : lockClosed">
         <ion-avatar slot="start">
-          <ion-img
-            :src="
-              'https://elsaify.elameed.education/elsefy/' +
-              course.img
-            "
-          />
+          <ion-img :src="
+            'https://elsaify.elameed.education/elsefy/' +
+            course.img
+          " />
         </ion-avatar>
         <ion-label>
           <h2>{{ invert ? course.title : course.text }}</h2>
@@ -45,9 +39,10 @@ import {
   IonAvatar,
   alertController,
   loadingController,
+actionSheetController,
 } from "@ionic/vue";
 import axios from "axios";
-import { closeCircle, chevronBack, lockClosed } from "ionicons/icons";
+import { closeCircle, chevronBack, lockClosed, wallet, qrCode } from "ionicons/icons";
 import { useAuth } from "../stores/auth";
 export default {
   components: {
@@ -89,6 +84,61 @@ export default {
           package: this.package,
         },
       });
+    },
+    async showPurchaseActions() {
+      const actionSheet = await actionSheetController.create({
+        subHeader: "اختار طريقة التفعيل",
+        header: "تفعيل: " + this.course.title,
+        buttons: [
+          {
+            text: "رصيد المحفظة",
+            icon: wallet,
+            handler: () => {
+              this.useWallet()
+            },
+          },
+          {
+            text: "الكيو ار",
+            icon: qrCode,
+            handler: () => {
+              this.useQR()
+            },
+          },
+        ],
+      });
+      await actionSheet.present();
+    },
+    async useWallet() {
+      const loading = await loadingController
+        .create({
+          message: 'استنى نفعل من المحفظة',
+        });
+      await loading.present();
+      const uninterceptedAxios = axios.create({
+        headers: {
+          "Authentication": "Bearer " + useAuth().token,
+        },
+      });
+      uninterceptedAxios
+        .get(
+          "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/courseWallet?courseId=" +
+          this.course.id,
+          { crossdomain: true }
+        )
+        .then((res) => {
+          if (res.data.code == 200) this.goToCourse();
+          else alertController.create({ header: "مشكلة !", message: 'رصيد محفظتك مش كفاية', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+            alert.present();
+          });
+          loading.dismiss()
+        })
+        .catch((err) => {
+          console.error(err);
+          alertController.create({ header: "مشكلة !", message: 'رصيد محفظتك مش كفاية', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+            alert.present();
+          });
+          loading.dismiss()
+        });
     },
     async useQR() {
       const alert = await alertController.create({
@@ -164,15 +214,19 @@ ion-card {
   border-radius: 8px;
   margin-bottom: 12px;
 }
+
 ion-card.bordered {
   border-right: solid 5px var(--ion-color-primary);
 }
+
 ion-item {
   --background: transparent;
 }
+
 ion-card-title {
   font-size: 1.1rem;
 }
+
 ion-card-header {
   padding: 12px;
 }

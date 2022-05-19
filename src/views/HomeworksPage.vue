@@ -23,23 +23,13 @@
                         <div v-else-if="!error" class="courses-wrapper">
                             <transition name="fade" mode="out-in">
                                 <div class="error-wrapper" v-if="error">
-                                    <ion-text
-                                        color="danger"
-                                    >ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text>
-                                    <ion-button
-                                        size="small"
-                                        style="margin-top: 15px; --box-shadow: none"
-                                        @click="getCourses"
-                                    >حاول تاني</ion-button>
+                                    <ion-text color="danger">ممكن تكون فاصل نت أو موقع الصيفي مش متاح</ion-text>
+                                    <ion-button size="small" style="margin-top: 15px; --box-shadow: none"
+                                        @click="getCourses">حاول تاني</ion-button>
                                 </div>
                                 <div v-else>
-                                    <course-tile
-                                        dense
-                                        class="course"
-                                        v-for="course in homeworks.sort(sortCourses)"
-                                        :course="course"
-                                        :key="course.id"
-                                    ></course-tile>
+                                    <course-tile dense class="course" v-for="course in homeworks.sort(sortCourses)"
+                                        :course="course" :key="course.id"></course-tile>
                                 </div>
                             </transition>
                         </div>
@@ -61,8 +51,9 @@ import {
     IonContent,
     alertController,
     loadingController,
+actionSheetController,
 } from "@ionic/vue";
-import { chevronBack, lockClosed } from "ionicons/icons";
+import { chevronBack, lockClosed, qrCode, wallet } from "ionicons/icons";
 import axios from "axios";
 import CourseTile from "../components/CourseTile.vue";
 import { useAuth } from "../stores/auth";
@@ -110,6 +101,67 @@ export default {
         isLectureAvailable(lecture) {
             return lecture.countC > 0 || lecture.money == "0.00";
         },
+
+
+
+
+        async showPurchaseActions(lecture) {
+            const actionSheet = await actionSheetController.create({
+                subHeader: "اختار طريقة التفعيل",
+                header: "تفعيل: " + lecture.title,
+                buttons: [
+                    {
+                        text: "رصيد المحفظة",
+                        icon: wallet,
+                        handler: () => {
+                            this.useWallet(lecture)
+                        },
+                    },
+                    {
+                        text: "الكيو ار",
+                        icon: qrCode,
+                        handler: () => {
+                            this.useQR(lecture)
+                        },
+                    },
+                ],
+            });
+            await actionSheet.present();
+        },
+        async useWallet(lecture) {
+            const loading = await loadingController
+                .create({
+                    message: 'استنى نفعل من المحفظة',
+                });
+            await loading.present();
+            const uninterceptedAxios = axios.create({
+                headers: {
+                    "Authentication": "Bearer " + useAuth().token,
+                },
+            });
+            uninterceptedAxios
+                .get(
+                    "https://elsaify-proxy.ignitionsoftware.workers.dev/?https://elsaify.elameed.education/elsefy/api/desktop/courseWallet?courseId=" +
+                    lecture.id,
+                    { crossdomain: true }
+                )
+                .then((res) => {
+                    if (res.data.code == 200) this.goToLecture(lecture);
+                    else alertController.create({ header: "مشكلة !", message: 'رصيد محفظتك مش كفاية', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                        alert.present();
+                    });
+                    loading.dismiss()
+                })
+                .catch((err) => {
+                    console.error(err);
+                    alertController.create({ header: "مشكلة !", message: 'رصيد محفظتك مش كفاية', buttons: ["تمام"], mode: 'ios', }).then(alert => {
+                        alert.present();
+                    });
+                    loading.dismiss()
+                });
+        },
+
+
         async useQR(lecture) {
             const alert = await alertController.create({
                 header: lecture.title,
@@ -235,17 +287,20 @@ ion-card {
     box-shadow: none;
     background: transparent;
 }
+
 .courses-wrapper {
     padding: 15px;
     min-height: 100%;
     display: flex;
     flex-direction: column;
 }
+
 .wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .error-wrapper {
     min-height: 100%;
     display: flex;
@@ -254,6 +309,7 @@ ion-card {
     align-items: center;
     text-align: center;
 }
+
 ion-img.logo {
     margin-right: auto;
     margin-left: auto;
@@ -261,9 +317,11 @@ ion-img.logo {
     margin-bottom: 30px;
     margin-top: 40px;
 }
+
 .lecture {
     --background: transparent;
 }
+
 ion-accordion {
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
         rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
