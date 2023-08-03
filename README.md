@@ -5,4 +5,4 @@ It uses the same API through a CORS Proxy hosted on [https://elsaify-proxy.ignit
 
 The web build is hosted here [https://elsaify.netlify.app/](https://elsaify.netlify.app/).
 
-UPDATE: API is no longer functional.
+*Update*: API is no longer functional.
